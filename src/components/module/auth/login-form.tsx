@@ -15,10 +15,18 @@ import Link from "next/link";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { postLogin } from "@/services/auth/authService";
+import Cookies from "js-cookie";
 
 const FormSchema = z.object({
   email: z.string().email({ message: "Email tidak valid" }),
@@ -43,10 +51,16 @@ export function LoginForm({
     try {
       const response = await postLogin(data);
 
-      if (response.success) {
+      if (response.success && response.token) {
+        const endOfDay = new Date();
+        endOfDay.setHours(23, 59, 59, 999);
+
+        Cookies.set("token", response.token, {
+          expires: endOfDay,
+        });
         toast({
           title: "Login Berhasil",
-          description: "Anda berhasil login."
+          description: "Anda berhasil login.",
         });
         router.push("/dashboard");
       }
@@ -54,10 +68,10 @@ export function LoginForm({
       toast({
         title: "Login Gagal",
         description: "Email dan password salah.",
-        variant: "destructive"
-      })
+        variant: "destructive",
+      });
     }
-  }
+  };
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -104,7 +118,7 @@ export function LoginForm({
                   </FormItem>
                 )}
               />
-              
+
               <Button type="submit" className="w-full">
                 Login
               </Button>
@@ -113,7 +127,10 @@ export function LoginForm({
 
               <div className="mt-4 text-center text-sm">
                 Belum punya akun?{" "}
-                <Link href="/registrasi" className="underline underline-offset-4">
+                <Link
+                  href="/registrasi"
+                  className="underline underline-offset-4"
+                >
                   Sign up
                 </Link>
               </div>
