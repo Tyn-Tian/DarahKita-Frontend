@@ -1,14 +1,18 @@
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextRequest } from "next/server";
 import { jwtDecode } from "jwt-decode";
 
 export async function middleware(request: NextRequest) {
   const authToken = request.cookies.get("token")?.value;
 
   if (!authToken) {
-    return request.nextUrl.pathname !== "/"
-      ? NextResponse.redirect(new URL("/", request.url))
-      : NextResponse.next();
+    if (
+      request.nextUrl.pathname === "/" ||
+      request.nextUrl.pathname === "/registrasi"
+    ) {
+      return NextResponse.next();
+    }
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   try {
