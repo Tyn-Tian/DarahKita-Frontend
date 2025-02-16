@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -29,6 +28,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
+import CancelButton from "./cancel-button";
+import SubmitButton from "./submit-button";
 
 const FormSchema = z.object({
   name: z.string().nonempty({ message: "Nama tidak boleh kosong" }),
@@ -98,6 +99,7 @@ export function ProfileForm() {
     },
   });
 
+  const onCancel = () => (profile ? form.reset(profile) : null);
   const onSubmit = (data: z.infer<typeof FormSchema>) => mutation.mutate(data);
 
   return (
@@ -274,16 +276,8 @@ export function ProfileForm() {
           <Separator className="mt-10 mb-5" />
 
           <div className="flex gap-3 justify-end">
-            <Button
-              variant="destructive"
-              type="button"
-              onClick={() => (profile ? form.reset(profile) : null)}
-            >
-              Cancel
-            </Button>
-            <Button type="submit" variant="default">
-              Save
-            </Button>
+            <CancelButton onCancel={onCancel} />
+            <SubmitButton onSubmit={form.handleSubmit(onSubmit)} />
           </div>
         </form>
       </Form>
