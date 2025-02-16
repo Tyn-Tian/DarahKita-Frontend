@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronRight, LogOut, type LucideIcon } from "lucide-react";
+import { ChevronRight, LogOut, User, type LucideIcon } from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,
@@ -75,6 +75,10 @@ export function NavMain({
             </SidebarMenuItem>
           </Collapsible>
         ))}
+        <SidebarMenuButton onClick={() => router.push("/profile")}>
+          <User />
+          <span>Profile</span>
+        </SidebarMenuButton>
         <SidebarMenuButton onClick={handleLogout}>
           <LogOut />
           <span>Logout</span>

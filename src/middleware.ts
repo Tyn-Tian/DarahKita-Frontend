@@ -17,24 +17,20 @@ export async function middleware(request: NextRequest) {
     }>(authToken);
 
     if (exp) {
-      const expirationDate = new Date(exp * 1000);
-      const currentDate = new Date();
+      const currentTimestamp = Math.floor(Date.now() / 1000);
 
-      const endOfDay = new Date(currentDate);
-      endOfDay.setHours(23, 59, 59, 999);
-
-      if (currentDate >= endOfDay || currentDate >= expirationDate) {
+      if (currentTimestamp >= exp) {
         const response = NextResponse.redirect(new URL("/", request.url));
         response.cookies.delete("token");
         return response;
       }
+    }
 
-      if (
-        request.nextUrl.pathname === "/" ||
-        request.nextUrl.pathname === "/registrasi"
-      ) {
-        return NextResponse.redirect(new URL("/dashboard", request.url));
-      }
+    if (
+      request.nextUrl.pathname === "/" ||
+      request.nextUrl.pathname === "/registrasi"
+    ) {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
     }
   } catch {
     const response = NextResponse.redirect(new URL("/", request.url));
@@ -48,9 +44,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/",
-    "/registrasi",
-    "/dashboard"
-  ]
-}
+  matcher: ["/", "/registrasi", "/dashboard", "/profile"],
+};

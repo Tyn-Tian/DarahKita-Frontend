@@ -1,8 +1,11 @@
+import { ProfileForm } from "@/components/module/dashboard/profile/profile-form";
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
@@ -18,19 +21,20 @@ export default function Page() {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="/dashboard">Home</BreadcrumbLink>
+                  <BreadcrumbLink href="/dashboard">
+                    Home
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator className="hidden md:block" />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>Profile</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div className="aspect-video rounded-xl bg-gray-300" />
-            <div className="aspect-video rounded-xl bg-gray-300" />
-            <div className="aspect-video rounded-xl bg-gray-300" />
-          </div>
-          <div className="min-h-[100vh] flex-1 rounded-xl bg-gray-300 md:min-h-min" />
+        <div className="p-4 pt-0">
+          <ProfileForm />
         </div>
       </SidebarInset>
     </>
