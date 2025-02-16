@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronRight, LogOut, User, type LucideIcon } from "lucide-react";
+import { ChevronRight, User, type LucideIcon } from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,
@@ -16,8 +16,8 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
-import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import LogoutNav from "./logout-nav";
 
 export function NavMain({
   items,
@@ -34,11 +34,6 @@ export function NavMain({
   }[];
 }) {
   const router = useRouter();
-
-  const handleLogout = () => {
-    Cookies.remove("token");
-    router.push("/");
-  };
 
   return (
     <SidebarGroup>
@@ -79,10 +74,7 @@ export function NavMain({
           <User />
           <span>Profile</span>
         </SidebarMenuButton>
-        <SidebarMenuButton onClick={handleLogout}>
-          <LogOut />
-          <span>Logout</span>
-        </SidebarMenuButton>
+        <LogoutNav />
       </SidebarMenu>
     </SidebarGroup>
   );
