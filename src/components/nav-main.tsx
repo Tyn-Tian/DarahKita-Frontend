@@ -1,6 +1,11 @@
 "use client";
 
-import { ChevronRight, User, type LucideIcon } from "lucide-react";
+import {
+  ChevronRight,
+  User,
+  type LucideIcon,
+  ChartNoAxesGantt,
+} from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,
@@ -37,8 +42,12 @@ export function NavMain({
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+      <SidebarGroupLabel>Navigasi</SidebarGroupLabel>
       <SidebarMenu>
+        <SidebarMenuButton onClick={() => router.push("/dashboard")}>
+          <ChartNoAxesGantt />
+          <span>Overview</span>
+        </SidebarMenuButton>
         {items.map((item) => (
           <Collapsible
             key={item.title}

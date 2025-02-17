@@ -5,7 +5,6 @@ import {
   BookOpen,
   Bot,
   Settings2,
-  SquareTerminal,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -26,26 +25,6 @@ const data = {
     avatar: "/avatars/shadcn.jpg",
   },
   navMain: [
-    {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
-    },
     {
       title: "Models",
       url: "#",
