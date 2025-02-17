@@ -51,6 +51,7 @@ export function ProfileForm() {
       const response = await getProfile();
       return response.data;
     },
+    initialData: () => queryClient.getQueryData(["profile"]),
   });
 
   const form = useForm<z.infer<typeof FormSchema>>({
