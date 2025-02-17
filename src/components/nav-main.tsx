@@ -1,5 +1,3 @@
-"use client";
-
 import {
   ChevronRight,
   User,
@@ -21,8 +19,8 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
-import { useRouter } from "next/navigation";
 import LogoutNav from "./logout-nav";
+import Link from "next/link";
 
 export function NavMain({
   items,
@@ -38,15 +36,15 @@ export function NavMain({
     }[];
   }[];
 }) {
-  const router = useRouter();
-
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Navigasi</SidebarGroupLabel>
       <SidebarMenu>
-        <SidebarMenuButton onClick={() => router.push("/dashboard")}>
-          <ChartNoAxesGantt />
-          <span>Overview</span>
+        <SidebarMenuButton asChild>
+          <Link href="/dashboard">
+            <ChartNoAxesGantt />
+            <span>Overview</span>
+          </Link>
         </SidebarMenuButton>
         {items.map((item) => (
           <Collapsible
@@ -79,9 +77,11 @@ export function NavMain({
             </SidebarMenuItem>
           </Collapsible>
         ))}
-        <SidebarMenuButton onClick={() => router.push("/profile")}>
-          <User />
-          <span>Profile</span>
+        <SidebarMenuButton asChild>
+          <Link href="/profile">
+            <User />
+            <span>Profile</span>
+          </Link>
         </SidebarMenuButton>
         <LogoutNav />
       </SidebarMenu>

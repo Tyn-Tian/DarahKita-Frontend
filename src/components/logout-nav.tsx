@@ -13,13 +13,16 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function LogoutNav() {
+  const queryClient = useQueryClient();
   const router = useRouter();
 
   const handleLogout = () => {
     Cookies.remove("token");
     router.push("/");
+    queryClient.clear();
   };
 
   return (
@@ -40,9 +43,7 @@ export default function LogoutNav() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Batal</AlertDialogCancel>
-            <AlertDialogAction onClick={handleLogout}>
-              Keluar
-            </AlertDialogAction>
+            <AlertDialogAction onClick={handleLogout}>Keluar</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

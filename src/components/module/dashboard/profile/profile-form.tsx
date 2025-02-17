@@ -44,21 +44,25 @@ const FormSchema = z.object({
 export function ProfileForm() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      address: "",
-      phone: "",
-    },
-  });
-
+  
   const { data: profile, error } = useQuery({
     queryKey: ["profile"],
     queryFn: async () => {
       const response = await getProfile();
       return response.data;
+    },
+  });
+
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    values: profile ? profile : {
+      name: "",
+      email: "",
+      address: "",
+      phone: "",
+      city: "",
+      blood: "",
+      rhesus: "",
     },
   });
 
