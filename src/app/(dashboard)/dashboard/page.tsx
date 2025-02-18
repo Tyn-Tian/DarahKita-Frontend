@@ -1,3 +1,6 @@
+import { BloodStockChart } from "@/components/module/dashboard/overview/blood-stock-chart";
+import { LeaderboardDonorChart } from "@/components/module/dashboard/overview/leaderboard-donor-chart";
+import { SumDonorChart } from "@/components/module/dashboard/overview/sum-donor-chart";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -32,9 +35,9 @@ export default function Page() {
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
           <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div className="aspect-video rounded-xl bg-gray-300" />
-            <div className="aspect-video rounded-xl bg-gray-300" />
-            <div className="aspect-video rounded-xl bg-gray-300" />
+            <BloodStockChart />
+            <SumDonorChart />
+            <LeaderboardDonorChart />
           </div>
           <div className="min-h-[100vh] flex-1 rounded-xl bg-gray-300 md:min-h-min" />
         </div>
