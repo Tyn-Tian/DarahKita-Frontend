@@ -9,12 +9,8 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-const chartData = [
-  { blood: "A", "rhesus +": 16, "rhesus -": 13 },
-  { blood: "B", "rhesus +": 15, "rhesus -": 20 },
-  { blood: "AB", "rhesus +": 7, "rhesus -": 11 },
-  { blood: "O", "rhesus +": 13, "rhesus -": 9 },
-];
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getBloodStocks } from "@/services/dashboard/dashbaordService";
 
 const chartConfig = {
   desktop: {
@@ -28,6 +24,40 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function BloodStockChart() {
+  const queryClient = useQueryClient();
+
+  const { data } = useQuery({
+    queryKey: ["blood-stock"],
+    queryFn: async () => {
+      const response = await getBloodStocks();
+      return response.data;
+    },
+    initialData: () => queryClient.getQueryData(["blood-stock"]),
+  });
+
+  const chartData = [
+    {
+      blood: "A",
+      "rhesus +": data?.a["rhesus +"] ?? 0,
+      "rhesus -": data?.a["rhesus -"] ?? 0,
+    },
+    {
+      blood: "B",
+      "rhesus +": data?.b["rhesus +"] ?? 0,
+      "rhesus -": data?.b["rhesus -"] ?? 0,
+    },
+    {
+      blood: "AB",
+      "rhesus +": data?.ab["rhesus +"] ?? 0,
+      "rhesus -": data?.ab["rhesus -"] ?? 0,
+    },
+    {
+      blood: "O",
+      "rhesus +": data?.o["rhesus +"] ?? 0,
+      "rhesus -": data?.o["rhesus -"] ?? 0,
+    },
+  ];
+
   return (
     <Card>
       <CardHeader className="">
@@ -44,9 +74,7 @@ export function BloodStockChart() {
               axisLine={false}
               tickFormatter={(value) => value.slice(0, 3)}
             />
-            <ChartTooltip
-              content={<ChartTooltipContent indicator="dot" />}
-            />
+            <ChartTooltip content={<ChartTooltipContent indicator="dot" />} />
             <Bar dataKey="rhesus +" fill="var(--color-desktop)" radius={4} />
             <Bar dataKey="rhesus -" fill="var(--color-mobile)" radius={4} />
           </BarChart>
