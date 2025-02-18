@@ -38,23 +38,23 @@ export function BloodStockChart() {
   const chartData = [
     {
       blood: "A",
-      "rhesus +": data?.a["rhesus +"] ?? 0,
-      "rhesus -": data?.a["rhesus -"] ?? 0,
+      "rhesus +": data?.a?.["rhesus +"] ?? 0,
+      "rhesus -": data?.a?.["rhesus -"] ?? 0,
     },
     {
       blood: "B",
-      "rhesus +": data?.b["rhesus +"] ?? 0,
-      "rhesus -": data?.b["rhesus -"] ?? 0,
+      "rhesus +": data?.b?.["rhesus +"] ?? 0,
+      "rhesus -": data?.b?.["rhesus -"] ?? 0,
     },
     {
       blood: "AB",
-      "rhesus +": data?.ab["rhesus +"] ?? 0,
-      "rhesus -": data?.ab["rhesus -"] ?? 0,
+      "rhesus +": data?.ab?.["rhesus +"] ?? 0,
+      "rhesus -": data?.ab?.["rhesus -"] ?? 0,
     },
     {
       blood: "O",
-      "rhesus +": data?.o["rhesus +"] ?? 0,
-      "rhesus -": data?.o["rhesus -"] ?? 0,
+      "rhesus +": data?.o?.["rhesus +"] ?? 0,
+      "rhesus -": data?.o?.["rhesus -"] ?? 0,
     },
   ];
 

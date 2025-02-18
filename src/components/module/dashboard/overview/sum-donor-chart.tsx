@@ -9,23 +9,37 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-const chartData = [
-  { month: "Januari", Orang: 26 },
-  { month: "Febriari", Orang: 35 },
-  { month: "Maret", Orang: 17 },
-  { month: "April", Orang: 23 },
-  { month: "Maret", Orang: 19 },
-  { month: "Juni", Orang: 14 },
-];
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getDonationsByMonth } from "@/services/dashboard/dashbaordService";
 
 const chartConfig = {
   desktop: {
-    label: "Orang",
+    label: "Donor",
     color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig;
 
 export function SumDonorChart() {
+  const queryClient = useQueryClient();
+
+  const { data } = useQuery({
+    queryKey: ["donations-by-month"],
+    queryFn: async () => {
+      const response = await getDonationsByMonth();
+      return response.data;
+    },
+    initialData: () => queryClient.getQueryData(["donations-by-month"]),
+  });
+
+  const chartData = [
+    { month: "Januari", Donor: data?.Januari?.donations ?? 0 },
+    { month: "Febriari", Donor: data?.Februari?.donations ?? 0 },
+    { month: "Maret", Donor: data?.Maret?.donations ?? 0 },
+    { month: "April", Donor: data?.April?.donations ?? 0 },
+    { month: "Mei", Donor: data?.Mei?.donations ?? 0 },
+    { month: "Juni", Donor: data?.Juni?.donations ?? 0 },
+  ];
+
   return (
     <Card>
       <CardHeader className="pb-3">
@@ -55,7 +69,7 @@ export function SumDonorChart() {
               content={<ChartTooltipContent indicator="line" />}
             />
             <Line
-              dataKey="Orang"
+              dataKey="Donor"
               type="natural"
               stroke="var(--color-desktop)"
               strokeWidth={2}
