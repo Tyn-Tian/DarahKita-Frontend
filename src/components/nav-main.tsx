@@ -3,6 +3,7 @@ import {
   User,
   type LucideIcon,
   ChartNoAxesGantt,
+  Syringe,
 } from "lucide-react";
 import {
   Collapsible,
@@ -44,6 +45,12 @@ export function NavMain({
           <Link href="/dashboard">
             <ChartNoAxesGantt />
             <span>Overview</span>
+          </Link>
+        </SidebarMenuButton>
+        <SidebarMenuButton asChild>
+          <Link href="/donation">
+            <Syringe />
+            <span>Donation</span>
           </Link>
         </SidebarMenuButton>
         {items.map((item) => (

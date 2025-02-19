@@ -4,12 +4,12 @@ type BloodStockData = {
   "rhesus -": number;
 };
 
-type DonationsByMonth = {
+type DonationsByMonthData = {
   month: string;
   donations: number;
 };
 
-type TopDonors = {
+type TopDonorsData = {
   name: string;
   donations: number;
 };
@@ -23,11 +23,11 @@ export interface BloodStocksResponse {
 export interface DonationsByMonthResponse {
   success: boolean;
   message: string;
-  data: DonationsByMonth[];
+  data: DonationsByMonthData[];
 }
 
 export interface TopDonorsResponse {
   success: boolean;
   message: string;
-  data: TopDonors[];
+  data: TopDonorsData[];
 }
