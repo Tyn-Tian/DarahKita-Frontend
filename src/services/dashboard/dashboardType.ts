@@ -1,27 +1,29 @@
 type BloodStockData = {
+  blood: string;
   "rhesus +": number;
   "rhesus -": number;
 };
 
 type DonationsByMonth = {
+  month: string;
   donations: number;
 };
 
 type TopDonors = {
   name: string;
   donations: number;
-}
+};
 
 export interface BloodStocksResponse {
   success: boolean;
   message: string;
-  data: Record<string, BloodStockData>;
+  data: BloodStockData[];
 }
 
 export interface DonationsByMonthResponse {
   success: boolean;
   message: string;
-  data: Record<string, DonationsByMonth>;
+  data: DonationsByMonth[];
 }
 
 export interface TopDonorsResponse {

@@ -31,14 +31,12 @@ export function SumDonorChart() {
     initialData: () => queryClient.getQueryData(["donations-by-month"]),
   });
 
-  const chartData = [
-    { month: "Januari", Donor: data?.Januari?.donations ?? 0 },
-    { month: "Febriari", Donor: data?.Februari?.donations ?? 0 },
-    { month: "Maret", Donor: data?.Maret?.donations ?? 0 },
-    { month: "April", Donor: data?.April?.donations ?? 0 },
-    { month: "Mei", Donor: data?.Mei?.donations ?? 0 },
-    { month: "Juni", Donor: data?.Juni?.donations ?? 0 },
-  ];
+  const chartData = data?.map((n) => {
+    return {
+      month: n.month ?? "",
+      Donor: n.donations ?? 0,
+    };
+  });
 
   return (
     <Card>
@@ -51,9 +49,9 @@ export function SumDonorChart() {
             accessibilityLayer
             data={chartData}
             margin={{
-              top: 20,
-              left: 12,
-              right: 12,
+              top: 21,
+              left: 15,
+              right: 15,
             }}
           >
             <CartesianGrid vertical={false} />
