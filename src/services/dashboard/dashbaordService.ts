@@ -1,6 +1,10 @@
 import { getJWTToken } from "@/lib/utils";
 import axios from "axios";
-import { BloodStocksResponse, DonationsByMonthResponse } from "./dashboardType";
+import {
+  BloodStocksResponse,
+  DonationsByMonthResponse,
+  TopDonorsResponse,
+} from "./dashboardType";
 
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
 
@@ -38,3 +42,20 @@ export const getDonationsByMonth =
       throw new Error(`Failed to fetch: ${error}`);
     }
   };
+
+export const getTopDonors = async (): Promise<TopDonorsResponse> => {
+  try {
+    const token = getJWTToken();
+
+    const response = await axios.get(`${API_URL}/top-donors`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw new Error(`Failed to fetch: ${error}`);
+  }
+};

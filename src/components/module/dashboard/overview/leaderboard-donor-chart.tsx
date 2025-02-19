@@ -16,17 +16,12 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-const chartData = [
-  { name: "Vincent Valdinata", "blood point": 305 },
-  { name: "Elvin", "blood point": 237 },
-  { name: "Puji Debora Napitupulu", "blood point": 209 },
-  { name: "Christian", "blood point": 186 },
-  { name: "Pingki", "blood point": 73 },
-];
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getTopDonors } from "@/services/dashboard/dashbaordService";
 
 const chartConfig = {
   desktop: {
-    label: "Blood Point",
+    label: "Donations",
     color: "hsl(var(--chart-1))",
   },
   label: {
@@ -35,6 +30,28 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function LeaderboardDonorChart() {
+  const queryClient = useQueryClient();
+
+  const { data } = useQuery({
+    queryKey: ["top-donors"],
+    queryFn: async () => {
+      const response = await getTopDonors();
+      return response.data;
+    },
+    initialData: () => queryClient.getQueryData(["top-donors"]),
+  });
+
+  const chartData = Array.from({ length: 5 }, (_, i) => {
+    if (data?.[i]) {
+      return {
+        name: data[i].name ?? "",
+        donations: data[i].donations ?? 0,
+      };
+    } else {
+      return { name: "-", donations: 0 };
+    }
+  });
+
   return (
     <Card>
       <CardHeader>
@@ -60,13 +77,13 @@ export function LeaderboardDonorChart() {
               tickFormatter={(value) => value.slice(0, 3)}
               hide
             />
-            <XAxis dataKey="blood point" type="number" hide />
+            <XAxis dataKey="donations" type="number" hide />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent indicator="line" />}
             />
             <Bar
-              dataKey="blood point"
+              dataKey="donations"
               layout="vertical"
               fill="var(--color-desktop)"
               radius={4}
@@ -79,7 +96,7 @@ export function LeaderboardDonorChart() {
                 fontSize={12}
               />
               <LabelList
-                dataKey="blood point"
+                dataKey="donations"
                 position="right"
                 offset={8}
                 className="fill-foreground"
