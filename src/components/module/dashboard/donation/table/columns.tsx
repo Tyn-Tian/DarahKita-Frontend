@@ -12,15 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
-export type BloodScheduleData = {
-  id: string;
-  date: string;
-  location: string;
-  time: string;
-  name: string;
-  contact: string;
-};
+import { BloodScheduleData } from "@/services/dashboard/dashboardType";
 
 export const columns: ColumnDef<BloodScheduleData>[] = [
   {

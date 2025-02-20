@@ -1,6 +1,7 @@
 import { getJWTToken } from "@/lib/utils";
 import axios from "axios";
 import {
+  BloodScheduleResponse,
   BloodStocksResponse,
   DonationsByMonthResponse,
   TopDonorsResponse,
@@ -48,6 +49,23 @@ export const getTopDonors = async (): Promise<TopDonorsResponse> => {
     const token = getJWTToken();
 
     const response = await axios.get(`${API_URL}/top-donors`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw new Error(`Failed to fetch: ${error}`);
+  }
+};
+
+export const getDonorSchedules = async (): Promise<BloodScheduleResponse> => {
+  try {
+    const token = getJWTToken();
+
+    const response = await axios.get(`${API_URL}/donor-schedules`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

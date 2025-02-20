@@ -14,6 +14,15 @@ type TopDonorsData = {
   donations: number;
 };
 
+export type BloodScheduleData = {
+  id: string;
+  date: string;
+  location: string;
+  time: string;
+  name: string;
+  contact: string;
+};
+
 export interface BloodStocksResponse {
   success: boolean;
   message: string;
@@ -30,4 +39,10 @@ export interface TopDonorsResponse {
   success: boolean;
   message: string;
   data: TopDonorsData[];
+}
+
+export interface BloodScheduleResponse {
+  success: boolean;
+  message: string;
+  data: BloodScheduleData[];
 }
