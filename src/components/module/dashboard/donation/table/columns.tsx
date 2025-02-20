@@ -13,11 +13,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { BloodScheduleData } from "@/services/dashboard/dashboardType";
+import { formatDateIntl, formatTime } from "@/lib/utils";
 
 export const columns: ColumnDef<BloodScheduleData>[] = [
   {
     accessorKey: "date",
     header: "Tanggal Pelaksanaan",
+    cell: ({ row }) => {
+      const formatedValue = formatDateIntl(row.getValue("date"));
+      return <div>{formatedValue}</div>;
+    },
   },
   {
     accessorKey: "location",
@@ -26,6 +31,10 @@ export const columns: ColumnDef<BloodScheduleData>[] = [
   {
     accessorKey: "time",
     header: "Waktu",
+    cell: ({ row }) => {
+      const formatedValue = formatTime(row.getValue("time"));
+      return <div>{formatedValue}</div>;
+    },
   },
   {
     accessorKey: "name",

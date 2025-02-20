@@ -13,3 +13,17 @@ export const getJWTToken = (): string => {
   }
   return token;
 };
+
+export const formatDateIntl = (dateString: string): string => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("id-ID", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+};
+
+export const formatTime = (timeString: string): string => {
+  const [hour, minute] = timeString.split(":");
+  return `${hour}:${minute} WIB`;
+};
