@@ -23,6 +23,13 @@ export type BloodScheduleData = {
   contact: string;
 };
 
+type PaginationData = {
+  current_page: number;
+  last_page: number;
+  per_page: number;
+  total: number;
+};
+
 export interface BloodStocksResponse {
   success: boolean;
   message: string;
@@ -45,4 +52,5 @@ export interface BloodScheduleResponse {
   success: boolean;
   message: string;
   data: BloodScheduleData[];
+  pagination: PaginationData;
 }

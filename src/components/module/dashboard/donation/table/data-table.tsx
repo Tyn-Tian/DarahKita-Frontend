@@ -17,21 +17,41 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getDonorSchedules } from "@/services/dashboard/dashbaordService";
+import { useState } from "react";
+import { BloodScheduleData } from "@/services/dashboard/dashboardType";
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+interface DataTableProps {
+  columns: ColumnDef<BloodScheduleData, unknown>[];
 }
 
-export function DataTable<TData, TValue>({
-  columns,
-  data,
-}: DataTableProps<TData, TValue>) {
-  const table = useReactTable({
-    data,
+export function DataTable({ columns }: DataTableProps) {
+  const [pageIndex, setPageIndex] = useState(1);
+  const pageSize = 5;
+
+  const queryClient = useQueryClient();
+
+  const { data } = useQuery({
+    queryKey: ["donation-schedule", pageIndex],
+    queryFn: async () => {
+      const response = await getDonorSchedules({
+        page: pageIndex,
+        per_page: pageSize,
+      });
+      return response;
+    },
+    initialData: () => queryClient.getQueryData(["donation-schedule"]),
+    placeholderData: (previousData) => previousData,
+  });
+
+  const table = useReactTable<BloodScheduleData>({
+    data: data?.data || [],
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    manualPagination: true,
+    pageCount: data?.pagination?.last_page || 1,
   });
 
   return (
@@ -86,20 +106,21 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
+
       <div className="flex items-center justify-end space-x-2 py-4">
         <Button
           variant="outline"
           size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
+          onClick={() => setPageIndex((prev) => Math.max(prev - 1, 1))}
+          disabled={pageIndex === 1}
         >
           Previous
         </Button>
         <Button
           variant="outline"
           size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
+          onClick={() => setPageIndex((prev) => prev + 1)}
+          disabled={pageIndex >= (data?.pagination?.last_page || 1)}
         >
           Next
         </Button>

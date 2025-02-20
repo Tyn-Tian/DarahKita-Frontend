@@ -1,4 +1,4 @@
-import DonationComponent from "@/components/module/dashboard/donation/donation-component";
+import DonorScheduleTable from "@/components/module/dashboard/donation/donor-schedule-table";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -32,7 +32,7 @@ export default function Page() {
           </div>
         </header>
         <div className="p-4 pt-0">
-          <DonationComponent />
+          <DonorScheduleTable />
         </div>
       </SidebarInset>
     </>
