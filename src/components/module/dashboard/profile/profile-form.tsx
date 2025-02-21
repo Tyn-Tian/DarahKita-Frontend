@@ -30,6 +30,9 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import CancelButton from "./cancel-button";
 import SubmitButton from "./submit-button";
+import ProfileSkeleton from "./profile-skeleton";
+import { resolve } from "path";
+
 
 const FormSchema = z.object({
   name: z.string().nonempty({ message: "Nama tidak boleh kosong" }),
@@ -45,7 +48,7 @@ export function ProfileForm() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
   
-  const { data: profile, error } = useQuery({
+  const { data: profile, error, isLoading } = useQuery({
     queryKey: ["profile"],
     queryFn: async () => {
       const response = await getProfile();
@@ -108,6 +111,7 @@ export function ProfileForm() {
   const onSubmit = (data: z.infer<typeof FormSchema>) => mutation.mutate(data);
 
   return (
+    
     <div className="flex justify-center">
       <Form {...form}>
         <form
@@ -285,7 +289,7 @@ export function ProfileForm() {
             <SubmitButton onSubmit={form.handleSubmit(onSubmit)} />
           </div>
         </form>
-      </Form>
-    </div>
-  );
+      </Form>  
+    </div>
+  );
 }
