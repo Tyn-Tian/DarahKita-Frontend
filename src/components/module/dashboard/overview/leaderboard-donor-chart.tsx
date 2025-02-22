@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/chart";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getTopDonors } from "@/services/dashboard/dashbaordService";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const chartConfig = {
   desktop: {
@@ -32,7 +33,7 @@ const chartConfig = {
 export function LeaderboardDonorChart() {
   const queryClient = useQueryClient();
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["top-donors"],
     queryFn: async () => {
       const response = await getTopDonors();
@@ -51,6 +52,10 @@ export function LeaderboardDonorChart() {
       return { name: "-", donations: 0 };
     }
   });
+
+  if (isLoading) {
+    return <Skeleton className="aspect-video rounded-xl" />;
+  }
 
   return (
     <Card>

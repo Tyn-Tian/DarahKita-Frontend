@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/chart";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getDonationsByMonth } from "@/services/dashboard/dashbaordService";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const chartConfig = {
   desktop: {
@@ -22,7 +23,7 @@ const chartConfig = {
 export function SumDonorChart() {
   const queryClient = useQueryClient();
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["donations-by-month"],
     queryFn: async () => {
       const response = await getDonationsByMonth();
@@ -37,6 +38,10 @@ export function SumDonorChart() {
       Donor: n.donations ?? 0,
     };
   });
+  
+  if (isLoading) {
+    return <Skeleton className="aspect-video rounded-xl" />
+  }
 
   return (
     <Card>

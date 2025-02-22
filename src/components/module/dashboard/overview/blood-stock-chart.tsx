@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/chart";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getBloodStocks } from "@/services/dashboard/dashbaordService";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const chartConfig = {
   desktop: {
@@ -26,7 +27,7 @@ const chartConfig = {
 export function BloodStockChart() {
   const queryClient = useQueryClient();
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["blood-stock"],
     queryFn: async () => {
       const response = await getBloodStocks();
@@ -43,9 +44,13 @@ export function BloodStockChart() {
     };
   });
 
+  if (isLoading) {
+    return <Skeleton className="aspect-video rounded-xl" />
+  }
+
   return (
     <Card>
-      <CardHeader className="">
+      <CardHeader>
         <CardTitle>Persediaan Darah</CardTitle>
       </CardHeader>
       <CardContent className="pb-0">
