@@ -1,5 +1,4 @@
 import { ProfileForm } from "@/components/module/dashboard/profile/profile-form";
-import ProfileSkeleton from "@/components/module/dashboard/profile/profile-skeleton";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -10,7 +9,6 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
-import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Page() {
   return (

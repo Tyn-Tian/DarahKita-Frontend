@@ -31,8 +31,6 @@ import { useEffect } from "react";
 import CancelButton from "./cancel-button";
 import SubmitButton from "./submit-button";
 import ProfileSkeleton from "./profile-skeleton";
-import { resolve } from "path";
-
 
 const FormSchema = z.object({
   name: z.string().nonempty({ message: "Nama tidak boleh kosong" }),
@@ -47,8 +45,12 @@ const FormSchema = z.object({
 export function ProfileForm() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
-  
-  const { data: profile, error, isLoading } = useQuery({
+
+  const {
+    data: profile,
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: ["profile"],
     queryFn: async () => {
       const response = await getProfile();
@@ -59,15 +61,17 @@ export function ProfileForm() {
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    values: profile ? profile : {
-      name: "",
-      email: "",
-      address: "",
-      phone: "",
-      city: "",
-      blood: "",
-      rhesus: "",
-    },
+    values: profile
+      ? profile
+      : {
+          name: "",
+          email: "",
+          address: "",
+          phone: "",
+          city: "",
+          blood: "",
+          rhesus: "",
+        },
   });
 
   useEffect(() => {
@@ -110,8 +114,11 @@ export function ProfileForm() {
   const onCancel = () => (profile ? form.reset(profile) : null);
   const onSubmit = (data: z.infer<typeof FormSchema>) => mutation.mutate(data);
 
+  if (isLoading) {
+    return <ProfileSkeleton />;
+  }
+
   return (
-    
     <div className="flex justify-center">
       <Form {...form}>
         <form
@@ -187,6 +194,7 @@ export function ProfileForm() {
               <FormItem className="mt-6 sm:w-1/3">
                 <FormLabel>Kota</FormLabel>
                 <Select
+                  key={field.value} // Tambahkan key agar component reset saat data berubah
                   onValueChange={field.onChange}
                   value={field.value || ""}
                 >
@@ -236,6 +244,7 @@ export function ProfileForm() {
                 <FormItem className="mt-6 w-3/5">
                   <FormLabel>Golongan Darah</FormLabel>
                   <Select
+                    key={field.value}
                     onValueChange={field.onChange}
                     value={field.value || ""}
                   >
@@ -263,6 +272,7 @@ export function ProfileForm() {
                 <FormItem className="mt-6 w-2/5">
                   <FormLabel>Rhesus</FormLabel>
                   <Select
+                    key={field.value}
                     onValueChange={field.onChange}
                     value={field.value || ""}
                   >
@@ -289,7 +299,7 @@ export function ProfileForm() {
             <SubmitButton onSubmit={form.handleSubmit(onSubmit)} />
           </div>
         </form>
-      </Form>  
-    </div>
-  );
+      </Form>
+    </div>
+  );
 }
