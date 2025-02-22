@@ -1,4 +1,5 @@
 import { BloodStockChart } from "@/components/module/dashboard/overview/blood-stock-chart";
+import DashboardBreadcrumb from "@/components/module/dashboard/overview/dashboard-breadcrumb";
 import { LeaderboardDonorChart } from "@/components/module/dashboard/overview/leaderboard-donor-chart";
 import { SumDonorChart } from "@/components/module/dashboard/overview/sum-donor-chart";
 import {
@@ -6,7 +7,6 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
@@ -26,9 +26,7 @@ export default function Page() {
                   <BreadcrumbLink href="/dashboard">Home</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Selamat datang</BreadcrumbPage>
-                </BreadcrumbItem>
+                <DashboardBreadcrumb />
               </BreadcrumbList>
             </Breadcrumb>
           </div>
