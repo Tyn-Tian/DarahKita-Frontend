@@ -292,11 +292,11 @@ export function ProfileForm() {
             />
           </div>
 
-          <Separator className="mt-10 mb-5" />
+           <Separator className="mt-10 mb-5" />
 
           <div className="flex gap-3 justify-end">
             <CancelButton onCancel={onCancel} />
-            <SubmitButton onSubmit={form.handleSubmit(onSubmit)} />
+            <SubmitButton onSubmit={form.handleSubmit(onSubmit)} isLoading={mutation.isPending} />
           </div>
         </form>
       </Form>

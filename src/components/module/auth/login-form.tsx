@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import GoogleLoginComponent from "@/components/google-login";
 import Link from "next/link";
 import { z } from "zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -37,6 +38,7 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
+  const [loading, setLoading] = useState(false);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -48,6 +50,7 @@ export function LoginForm({
   const router = useRouter();
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+    setLoading(true);
     try {
       const response = await postLogin(data);
 
@@ -70,6 +73,8 @@ export function LoginForm({
         description: "Email dan password salah.",
         variant: "destructive",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -119,8 +124,8 @@ export function LoginForm({
                 )}
               />
 
-              <Button type="submit" className="w-full">
-                Login
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading ? "Memproses..." : "Login"}
               </Button>
 
               <GoogleLoginComponent />
