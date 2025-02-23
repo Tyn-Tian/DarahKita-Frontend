@@ -18,9 +18,17 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getDonorSchedules } from "@/services/dashboard/dashbaordService";
 import { useState } from "react";
-import { BloodScheduleData } from "@/services/dashboard/dashboardType";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { BloodScheduleData } from "@/services/donation/donationType";
+import { getDonorSchedules } from "@/services/donation/donationService";
 
 interface DataTableProps {
   columns: ColumnDef<BloodScheduleData, unknown>[];
@@ -28,16 +36,18 @@ interface DataTableProps {
 
 export function DataTable({ columns }: DataTableProps) {
   const [pageIndex, setPageIndex] = useState(1);
+  const [selectedCity, setSelectedCity] = useState("");
   const pageSize = 5;
 
   const queryClient = useQueryClient();
 
   const { data } = useQuery({
-    queryKey: ["donation-schedule", pageIndex],
+    queryKey: ["donation-schedule", pageIndex, selectedCity],
     queryFn: async () => {
       const response = await getDonorSchedules({
         page: pageIndex,
         per_page: pageSize,
+        city: selectedCity,
       });
       return response;
     },
@@ -56,6 +66,31 @@ export function DataTable({ columns }: DataTableProps) {
 
   return (
     <div>
+      <div className="w-full flex mb-4 justify-end">
+        <Select
+          onValueChange={(value) => {
+            setSelectedCity(value);
+            setPageIndex(1);
+          }}
+          value={selectedCity}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Pilih Kota" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value="pangkalpinang">Pangkalpinang</SelectItem>
+              <SelectItem value="bangka">Bangka</SelectItem>
+              <SelectItem value="bangka_barat">Bangka Barat</SelectItem>
+              <SelectItem value="bangka_selatan">Bangka Selatan</SelectItem>
+              <SelectItem value="bangka_tengah">Bangka Tengah</SelectItem>
+              <SelectItem value="belitung">Belitung</SelectItem>
+              <SelectItem value="belitung_timur">Belitung Timur</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div>
+
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -99,7 +134,7 @@ export function DataTable({ columns }: DataTableProps) {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  Belum Ada Jadwal Donor Darah.
                 </TableCell>
               </TableRow>
             )}

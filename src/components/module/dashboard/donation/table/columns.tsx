@@ -12,8 +12,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { BloodScheduleData } from "@/services/dashboard/dashboardType";
 import { formatDateIntl, formatTime } from "@/lib/utils";
+import { BloodScheduleData } from "@/services/donation/donationType";
 
 export const columns: ColumnDef<BloodScheduleData>[] = [
   {
