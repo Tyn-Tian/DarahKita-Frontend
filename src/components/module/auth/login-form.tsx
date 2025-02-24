@@ -13,7 +13,6 @@ import { Input } from "@/components/ui/input";
 import GoogleLoginComponent from "@/components/google-login";
 import Link from "next/link";
 import { z } from "zod";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -28,6 +27,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { postLogin } from "@/services/auth/authService";
 import Cookies from "js-cookie";
+import { useMutation } from "@tanstack/react-query";
 
 const FormSchema = z.object({
   email: z.string().email({ message: "Email tidak valid" }),
@@ -38,7 +38,6 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-  const [loading, setLoading] = useState<boolean>(false);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -49,11 +48,11 @@ export function LoginForm({
   const { toast } = useToast();
   const router = useRouter();
 
-  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    setLoading(true);
-    try {
-      const response = await postLogin(data);
-
+  const mutation = useMutation({
+    mutationFn: async (data: z.infer<typeof FormSchema>) => {
+      return await postLogin(data);
+    },
+    onSuccess: (response) => {
       if (response.success && response.token) {
         const endOfDay = new Date();
         endOfDay.setHours(23, 59, 59, 999);
@@ -61,22 +60,25 @@ export function LoginForm({
         Cookies.set("token", response.token, {
           expires: endOfDay,
         });
+
         toast({
           title: "Login Berhasil",
           description: "Anda berhasil login.",
         });
         router.push("/dashboard");
       }
-    } catch {
+    },
+    onError: () => {
       toast({
         title: "Login Gagal",
         description: "Email dan password salah.",
         variant: "destructive",
       });
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+  });
+
+  const onSubmit = async (data: z.infer<typeof FormSchema>) =>
+    mutation.mutate(data);
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -124,8 +126,12 @@ export function LoginForm({
                 )}
               />
 
-              <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? "Memproses..." : "Login"}
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={mutation.isPending}
+              >
+                {mutation.isPending ? "Memproses..." : "Login"}
               </Button>
 
               <GoogleLoginComponent />
