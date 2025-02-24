@@ -200,7 +200,10 @@ export function ProfileForm() {
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue className="text-sm sm:text-base" placeholder="Pilih kota" />
+                      <SelectValue
+                        className="text-sm sm:text-base"
+                        placeholder="Pilih kota"
+                      />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -250,7 +253,10 @@ export function ProfileForm() {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue className="text-sm sm:text-base" placeholder="Pilih golongan darah" />
+                        <SelectValue
+                          className="text-sm sm:text-base"
+                          placeholder="Pilih golongan darah"
+                        />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -278,7 +284,10 @@ export function ProfileForm() {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue className="text-sm sm:text-base" placeholder="Pilih rhesus" />
+                        <SelectValue
+                          className="text-sm sm:text-base"
+                          placeholder="Pilih rhesus"
+                        />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -292,11 +301,14 @@ export function ProfileForm() {
             />
           </div>
 
-           <Separator className="mt-10 mb-5" />
+          <Separator className="mt-10 mb-5" />
 
           <div className="flex gap-3 justify-end">
-            <CancelButton onCancel={onCancel} />
-            <SubmitButton onSubmit={form.handleSubmit(onSubmit)} isLoading={mutation.isPending} />
+            <CancelButton onCancel={onCancel} isLoading={mutation.isPending} />
+            <SubmitButton
+              onSubmit={form.handleSubmit(onSubmit)}
+              isLoading={mutation.isPending}
+            />
           </div>
         </form>
       </Form>

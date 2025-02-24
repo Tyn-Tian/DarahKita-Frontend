@@ -29,7 +29,7 @@ import {
 } from "@/components/ui/select";
 import { BloodScheduleData } from "@/services/donation/donationType";
 import { getDonorSchedules } from "@/services/donation/donationService";
-import SkeletonTable  from "./skeleton-table";
+import TableDonorScheduleSkeleton from "./table-skeleton";
 
 interface DataTableProps {
   columns: ColumnDef<BloodScheduleData, unknown>[];
@@ -114,9 +114,11 @@ export function DataTable({ columns }: DataTableProps) {
           </TableHeader>
           <TableBody>
             {isLoading ? (
-              <SkeletonTable columnCount={columns.length} rowCount={pageSize} />
-            ):
-            table.getRowModel().rows?.length ? (
+              <TableDonorScheduleSkeleton
+                columnCount={columns.length}
+                rowCount={pageSize}
+              />
+            ) : table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}

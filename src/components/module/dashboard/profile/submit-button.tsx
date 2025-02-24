@@ -16,12 +16,15 @@ interface SubmitButtonProps {
   isLoading: boolean;
 }
 
-export default function SubmitButton({ onSubmit, isLoading }: SubmitButtonProps) {
+export default function SubmitButton({
+  onSubmit,
+  isLoading,
+}: SubmitButtonProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button type="button" disabled={isLoading}>
-          {isLoading ? "Menyimpan..." : "Simpan"}   
+          {isLoading ? "Menyimpan..." : "Simpan"}
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -32,9 +35,9 @@ export default function SubmitButton({ onSubmit, isLoading }: SubmitButtonProps)
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={isLoading}>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={() => onSubmit()} disabled={isLoading}>
-            {isLoading? "Menyimpan..." : "Simpan"}
+          <AlertDialogCancel>Batal</AlertDialogCancel>
+          <AlertDialogAction onClick={() => onSubmit()}>
+            Simpan
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

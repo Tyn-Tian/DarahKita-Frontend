@@ -13,13 +13,19 @@ import { Button } from "@/components/ui/button";
 
 interface CancelButtonProps {
   onCancel: () => void;
+  isLoading: boolean;
 }
 
-export default function CancelButton({ onCancel }: CancelButtonProps)  {
+export default function CancelButton({
+  onCancel,
+  isLoading,
+}: CancelButtonProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button type="button" variant="destructive">Batal</Button>
+        <Button type="button" variant="destructive" disabled={isLoading}>
+          Batal
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -35,4 +41,4 @@ export default function CancelButton({ onCancel }: CancelButtonProps)  {
       </AlertDialogContent>
     </AlertDialog>
   );
-};
+}

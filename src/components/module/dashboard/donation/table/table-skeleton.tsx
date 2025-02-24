@@ -1,19 +1,22 @@
 import { TableRow, TableCell } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
 
-interface SkeletonTableProps {
+interface TableDonorScheduleSkeleton {
   columnCount: number;
   rowCount: number;
 }
 
-const SkeletonTable = ({ columnCount, rowCount }: SkeletonTableProps) => {
+const TableDonorScheduleSkeleton = ({
+  columnCount,
+  rowCount,
+}: TableDonorScheduleSkeleton) => {
   return (
     <>
       {Array.from({ length: rowCount }).map((_, rowIndex) => (
         <TableRow key={rowIndex}>
           {Array.from({ length: columnCount }).map((_, colIndex) => (
             <TableCell key={colIndex}>
-              <Skeleton className="h-6 w-full" />
+              <Skeleton className="h-6 w-4/5" />
             </TableCell>
           ))}
         </TableRow>
@@ -22,4 +25,4 @@ const SkeletonTable = ({ columnCount, rowCount }: SkeletonTableProps) => {
   );
 };
 
-export default SkeletonTable;
+export default TableDonorScheduleSkeleton;
