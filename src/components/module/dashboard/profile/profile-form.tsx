@@ -200,7 +200,7 @@ export function ProfileForm() {
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Pilih kota" />
+                      <SelectValue className="text-sm sm:text-base" placeholder="Pilih kota" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -250,7 +250,7 @@ export function ProfileForm() {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Pilih golongan darah" />
+                        <SelectValue className="text-sm sm:text-base" placeholder="Pilih golongan darah" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -278,7 +278,7 @@ export function ProfileForm() {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Pilih rhesus" />
+                        <SelectValue className="text-sm sm:text-base" placeholder="Pilih rhesus" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>

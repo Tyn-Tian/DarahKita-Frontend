@@ -9,11 +9,11 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { formatDateIntl, formatTime } from "@/lib/utils";
 import { BloodScheduleData } from "@/services/donation/donationType";
+import Link from "next/link";
 
 export const columns: ColumnDef<BloodScheduleData>[] = [
   {
@@ -59,14 +59,9 @@ export const columns: ColumnDef<BloodScheduleData>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(bloodSchedule.id)}
-            >
-              Copy payment ID
+            <DropdownMenuItem asChild>
+              <Link href={`/donation/${bloodSchedule.id}`}>Lihat Detail</Link>
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

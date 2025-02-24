@@ -1,6 +1,11 @@
 import { getJWTToken } from "@/lib/utils";
 import axios from "axios";
-import { BloodSchedulesParams, BloodSchedulesResponse } from "./donationType";
+import {
+  BloodScheduleDetailResponse,
+  BloodSchedulesParams,
+  BloodSchedulesResponse,
+  RegisterBloodScheduleResponse,
+} from "./donationType";
 
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
 
@@ -14,6 +19,44 @@ export const getDonorSchedules = async ({
 
     const response = await axios.get(`${API_URL}/donor-schedules`, {
       params: { page, per_page, city },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw new Error(`Failed to fetch: ${error}`);
+  }
+};
+
+export const getDonorScheduleDetail = async (
+  id: string
+): Promise<BloodScheduleDetailResponse> => {
+  try {
+    const token = getJWTToken();
+
+    const response = await axios.get(`${API_URL}/donor-schedules/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw new Error(`Failed to fetch: ${error}`);
+  }
+};
+
+export const postRegisterDonorSchedule = async (
+  id: string
+): Promise<RegisterBloodScheduleResponse> => {
+  try {
+    const token = getJWTToken();
+
+    const response = await axios.post(`${API_URL}/donor-schedules/${id}`, {}, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
