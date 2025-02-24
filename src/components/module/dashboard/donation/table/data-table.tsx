@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/select";
 import { BloodScheduleData } from "@/services/donation/donationType";
 import { getDonorSchedules } from "@/services/donation/donationService";
+import SkeletonTable  from "./skeleton-table";
 
 interface DataTableProps {
   columns: ColumnDef<BloodScheduleData, unknown>[];
@@ -41,7 +42,7 @@ export function DataTable({ columns }: DataTableProps) {
 
   const queryClient = useQueryClient();
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["donation-schedule", pageIndex, selectedCity],
     queryFn: async () => {
       const response = await getDonorSchedules({
@@ -112,7 +113,10 @@ export function DataTable({ columns }: DataTableProps) {
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {isLoading ? (
+              <SkeletonTable columnCount={columns.length} rowCount={pageSize} />
+            ):
+            table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}

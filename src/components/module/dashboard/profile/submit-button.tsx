@@ -13,13 +13,16 @@ import { Button } from "@/components/ui/button";
 
 interface SubmitButtonProps {
   onSubmit: () => void;
+  isLoading: boolean;
 }
 
-export default function SubmitButton({ onSubmit }: SubmitButtonProps) {
+export default function SubmitButton({ onSubmit, isLoading }: SubmitButtonProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button type="button">Simpan</Button>
+        <Button type="button" disabled={isLoading}>
+          {isLoading ? "Menyimpan..." : "Simpan"}   
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -29,9 +32,9 @@ export default function SubmitButton({ onSubmit }: SubmitButtonProps) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={() => onSubmit()}>
-            Simpan
+          <AlertDialogCancel disabled={isLoading}>Batal</AlertDialogCancel>
+          <AlertDialogAction onClick={() => onSubmit()} disabled={isLoading}>
+            {isLoading? "Menyimpan..." : "Simpan"}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
