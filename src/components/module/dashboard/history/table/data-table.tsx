@@ -1,14 +1,6 @@
 "use client";
 
 import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  getPaginationRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-
-import {
   Table,
   TableBody,
   TableCell,
@@ -17,46 +9,43 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import { HistoryData } from "@/services/history/historyType";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { BloodScheduleData } from "@/services/donation/donationType";
-import { getDonorSchedules } from "@/services/donation/donationService";
-import TableDonorScheduleSkeleton from "./table-skeleton";
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getPaginationRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { useState } from "react";
+import TableDonorScheduleSkeleton from "../../donation/table/table-skeleton";
+import { getHistories } from "@/services/history/historyService";
 
 interface DataTableProps {
-  columns: ColumnDef<BloodScheduleData, unknown>[];
+  columns: ColumnDef<HistoryData, unknown>[];
 }
 
 export function DataTable({ columns }: DataTableProps) {
   const [pageIndex, setPageIndex] = useState<number>(1);
-  const [selectedCity, setSelectedCity] = useState<string>("");
   const pageSize = 5;
 
   const queryClient = useQueryClient();
 
   const { data, isLoading } = useQuery({
-    queryKey: ["donation-schedule", pageIndex, selectedCity],
+    queryKey: ["history", pageIndex],
     queryFn: async () => {
-      const response = await getDonorSchedules({
+      const response = await getHistories({
         page: pageIndex,
         per_page: pageSize,
-        city: selectedCity,
       });
       return response;
     },
-    initialData: () => queryClient.getQueryData(["donation-schedule"]),
+    initialData: () => queryClient.getQueryData(["history"]),
     placeholderData: (previousData) => previousData,
   });
 
-  const table = useReactTable<BloodScheduleData>({
+  const table = useReactTable<HistoryData>({
     data: data?.data || [],
     columns,
     getCoreRowModel: getCoreRowModel(),
@@ -67,31 +56,6 @@ export function DataTable({ columns }: DataTableProps) {
 
   return (
     <div>
-      <div className="w-full flex mb-4 justify-end">
-        <Select
-          onValueChange={(value) => {
-            setSelectedCity(value);
-            setPageIndex(1);
-          }}
-          value={selectedCity}
-        >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Pilih Kota" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value="pangkalpinang">Pangkalpinang</SelectItem>
-              <SelectItem value="bangka">Bangka</SelectItem>
-              <SelectItem value="bangka_barat">Bangka Barat</SelectItem>
-              <SelectItem value="bangka_selatan">Bangka Selatan</SelectItem>
-              <SelectItem value="bangka_tengah">Bangka Tengah</SelectItem>
-              <SelectItem value="belitung">Belitung</SelectItem>
-              <SelectItem value="belitung_timur">Belitung Timur</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
-
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -140,7 +104,7 @@ export function DataTable({ columns }: DataTableProps) {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  Belum Ada Jadwal Donor Darah.
+                  Anda belum pernah donor darah.
                 </TableCell>
               </TableRow>
             )}

@@ -4,6 +4,7 @@ import {
   type LucideIcon,
   ChartNoAxesGantt,
   Syringe,
+  History,
 } from "lucide-react";
 import {
   Collapsible,
@@ -51,6 +52,12 @@ export function NavMain({
           <Link href="/donation">
             <Syringe />
             <span>Donation</span>
+          </Link>
+        </SidebarMenuButton>
+        <SidebarMenuButton asChild>
+          <Link href="/history">
+            <History />
+            <span>History</span>
           </Link>
         </SidebarMenuButton>
         {items.map((item) => (

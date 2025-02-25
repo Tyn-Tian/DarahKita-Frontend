@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { BookOpen, Settings2 } from "lucide-react";
+import { Settings2 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
@@ -16,29 +16,6 @@ import {
 
 const data = {
   navMain: [
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
     {
       title: "Settings",
       url: "#",

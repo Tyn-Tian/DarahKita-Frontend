@@ -55,5 +55,6 @@ export const config = {
     "/profile",
     "/donation",
     "/donation/:path*",
+    "/history"
   ],
 };
