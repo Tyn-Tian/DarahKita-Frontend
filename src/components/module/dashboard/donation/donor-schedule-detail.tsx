@@ -57,8 +57,8 @@ export default function DonorScheduleDetail({ id }: { id: string }) {
 
   return (
     <div>
-      {isLoading || !data ? (
-      <DonorScheduleDetailSkeleton />
+      {isLoading ? (
+        <DonorScheduleDetailSkeleton />
       ) : (
         <div className="flex justify-center">
           <div className="mb-5 sm:w-3/5">
@@ -76,8 +76,8 @@ export default function DonorScheduleDetail({ id }: { id: string }) {
                   <AlertCircle className="w-4 h-4" />
                   <AlertTitle>Pemberitahuan</AlertTitle>
                   <AlertDescription>
-                    Anda belum bisa melakukan pendaftaran donor darah. Karena belum
-                    4 bulan semenjak donor darah terakhir. [
+                    Anda belum bisa melakukan pendaftaran donor darah. Karena
+                    belum 4 bulan semenjak donor darah terakhir. [
                     {formatDateIntl(data?.lastDonation ?? "")}]
                   </AlertDescription>
                 </Alert>
