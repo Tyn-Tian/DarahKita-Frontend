@@ -29,15 +29,15 @@ import {
 } from "@/components/ui/select";
 import { BloodScheduleData } from "@/services/donation/donationType";
 import { getDonorSchedules } from "@/services/donation/donationService";
-import TableDonorScheduleSkeleton from "./table-skeleton";
+import TableSkeleton from "@/components/table-skeleton";
 
 interface DataTableProps {
   columns: ColumnDef<BloodScheduleData, unknown>[];
 }
 
 export function DataTable({ columns }: DataTableProps) {
-  const [pageIndex, setPageIndex] = useState<number>(1);
-  const [selectedCity, setSelectedCity] = useState<string>("");
+  const [pageIndex, setPageIndex] = useState(1);
+  const [selectedCity, setSelectedCity] = useState("");
   const pageSize = 5;
 
   const queryClient = useQueryClient();
@@ -114,7 +114,7 @@ export function DataTable({ columns }: DataTableProps) {
           </TableHeader>
           <TableBody>
             {isLoading ? (
-              <TableDonorScheduleSkeleton
+              <TableSkeleton
                 columnCount={columns.length}
                 rowCount={pageSize}
               />

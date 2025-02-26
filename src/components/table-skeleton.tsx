@@ -1,15 +1,15 @@
 import { TableRow, TableCell } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
 
-interface TableDonorScheduleSkeleton {
+interface TableSkeleton {
   columnCount: number;
   rowCount: number;
 }
 
-const TableDonorScheduleSkeleton = ({
+const TableSkeleton = ({
   columnCount,
   rowCount,
-}: TableDonorScheduleSkeleton) => {
+}: TableSkeleton) => {
   return (
     <>
       {Array.from({ length: rowCount }).map((_, rowIndex) => (
@@ -25,4 +25,4 @@ const TableDonorScheduleSkeleton = ({
   );
 };
 
-export default TableDonorScheduleSkeleton;
+export default TableSkeleton;

@@ -19,7 +19,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { useState } from "react";
-import TableDonorScheduleSkeleton from "../../donation/table/table-skeleton";
+import TableSkeleton from "@/components/table-skeleton";
 import { getHistories } from "@/services/history/historyService";
 
 interface DataTableProps {
@@ -78,7 +78,7 @@ export function DataTable({ columns }: DataTableProps) {
           </TableHeader>
           <TableBody>
             {isLoading ? (
-              <TableDonorScheduleSkeleton
+              <TableSkeleton
                 columnCount={columns.length}
                 rowCount={pageSize}
               />
