@@ -7,12 +7,13 @@ const API_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
 export const getHistories = async ({
   page,
   per_page,
+  status
 }: HistoryParams): Promise<HistoryResponse> => {
   try {
     const token = getJWTToken();
 
     const response = await axios.get(`${API_URL}/histories`, {
-      params: { page, per_page },
+      params: { page, per_page, status },
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

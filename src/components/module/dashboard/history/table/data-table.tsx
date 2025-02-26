@@ -24,9 +24,10 @@ import { getHistories } from "@/services/history/historyService";
 
 interface DataTableProps {
   columns: ColumnDef<HistoryData, unknown>[];
+  status: string;
 }
 
-export function DataTable({ columns }: DataTableProps) {
+export function DataTable({ columns, status }: DataTableProps) {
   const [pageIndex, setPageIndex] = useState<number>(1);
   const pageSize = 5;
 
@@ -38,6 +39,7 @@ export function DataTable({ columns }: DataTableProps) {
       const response = await getHistories({
         page: pageIndex,
         per_page: pageSize,
+        status: status,
       });
       return response;
     },
@@ -78,10 +80,7 @@ export function DataTable({ columns }: DataTableProps) {
           </TableHeader>
           <TableBody>
             {isLoading ? (
-              <TableSkeleton
-                columnCount={columns.length}
-                rowCount={pageSize}
-              />
+              <TableSkeleton columnCount={columns.length} rowCount={pageSize} />
             ) : table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
@@ -104,7 +103,7 @@ export function DataTable({ columns }: DataTableProps) {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  Anda belum pernah donor darah.
+                  Belum Ada Jadwal Donor Darah.
                 </TableCell>
               </TableRow>
             )}

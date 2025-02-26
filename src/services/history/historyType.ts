@@ -1,11 +1,13 @@
 export type HistoryParams = {
   page: number;
   per_page: number;
+  status: string;
 };
 
 export type HistoryData = {
   id: string;
   date: string;
+  location: string;
   status: "pending" | "success" | "failed";
   pmi: string;
 };

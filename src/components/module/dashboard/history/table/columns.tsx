@@ -12,12 +12,17 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Link, MoreHorizontal } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
+import Link from "next/link";
 
 export const columns: ColumnDef<HistoryData>[] = [
   {
     accessorKey: "status",
     header: "Status",
+    cell: ({ row }) => {
+      const status = row.getValue("status") as string;
+      return <p>{status.charAt(0).toUpperCase() + status.slice(1)}</p>;
+    },
   },
   {
     accessorKey: "date",
@@ -26,6 +31,10 @@ export const columns: ColumnDef<HistoryData>[] = [
       const formatedValue = formatDateIntl(row.getValue("date"));
       return <div>{formatedValue}</div>;
     },
+  },
+  {
+    accessorKey: "location",
+    header: "Lokasi",
   },
   {
     accessorKey: "pmi",
