@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -12,6 +13,12 @@ export const getJWTToken = (): string => {
     throw new Error("JWT token not found in cookie");
   }
   return token;
+};
+
+export const getUserRole = (): string | undefined => {
+  const token = getJWTToken();
+  const decoded = jwtDecode(token);
+  return decoded.role;
 };
 
 export const formatDateIntl = (dateString: string): string => {
