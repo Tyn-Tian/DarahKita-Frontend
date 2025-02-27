@@ -12,6 +12,16 @@ export type HistoryData = {
   pmi: string;
 };
 
+export type HistoryDetailData = {
+  id: string;
+  date: string;
+  time: string;
+  location: string;
+  status: "pending" | "success" | "failed";
+  pmi: string;
+  contact: string;
+};
+
 type PaginationData = {
   current_page: number;
   last_page: number;
@@ -24,4 +34,10 @@ export interface HistoryResponse {
   message: string;
   data: HistoryData[];
   pagination: PaginationData;
+}
+
+export interface HistoryDetailResponse {
+  success: boolean;
+  message: string;
+  data: HistoryDetailData;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { formatDateIntl } from "@/lib/utils";
+import { formatDateIntl, formatTime } from "@/lib/utils";
 import { HistoryData } from "@/services/history/historyType";
 import { ColumnDef } from "@tanstack/react-table";
 
@@ -37,8 +37,20 @@ export const columns: ColumnDef<HistoryData>[] = [
     header: "Lokasi",
   },
   {
+    accessorKey: "time",
+    header: "Waktu",
+    cell: ({ row }) => {
+      const formatedValue = formatTime(row.getValue("time"));
+      return <div>{formatedValue}</div>;
+    },
+  },
+  {
     accessorKey: "pmi",
     header: "PMI Center",
+  },
+  {
+    accessorKey: "contact",
+    header: "Kontak",
   },
   {
     id: "actions",
