@@ -33,11 +33,29 @@ import SubmitButton from "./submit-button";
 import ProfileSkeleton from "./profile-skeleton";
 
 const FormSchema = z.object({
-  name: z.string().nonempty({ message: "Nama tidak boleh kosong" }),
+  name: z
+    .string()
+    .nonempty({ message: "Nama tidak boleh kosong" })
+    .min(3, { message: "Nama harus terdiri dari minimal 3 karakter" })
+    .max(40, { message: "Nama tidak boleh lebih dari 40 karakter" })
+    .regex(/^[a-zA-Z\s]+$/, { message: "Nama hanya boleh berisi huruf dan spasi" }),
   email: z.string().email({ message: "Email tidak valid" }),
-  address: z.string().nonempty({ message: "Alamat tidak boleh kosong" }),
+  address: z
+    .string()
+    .nonempty({ message: "Alamat tidak boleh kosong" })
+    .min(10, { message: "Alamat harus terdiri dari minimal 10 karakter" })
+    .max(100, { message: "Alamat tidak boleh lebih dari 100 karakter" }),
   city: z.string().nonempty({ message: "Pilih kota" }),
-  phone: z.string().nonempty({ message: "Nomor telpon tidak boleh kosong" }),
+  phone: z
+    .string()
+    .nonempty({ message: "Nomor telepon tidak boleh kosong" })
+    .regex(/^(0|\+62)/, { message: "Nomor telepon harus diawali dengan 0 atau +62" })
+    .refine((value) => {
+      const numberPart = value.startsWith("+62") ? value.slice(3) : value.slice(1);
+      return numberPart.length >= 9 && numberPart.length <= 13;
+    }, {
+      message: "Nomor harus terdiri dari minimal 9 digit dan maksimal 13 digit",
+    }),
   blood: z.string().nonempty({ message: "Pilih golongan darah" }),
   rhesus: z.string().nonempty({ message: "Pilih rhesus" }),
 });
