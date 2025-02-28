@@ -34,7 +34,7 @@ export async function middleware(request: NextRequest) {
       request.nextUrl.pathname === "/" ||
       request.nextUrl.pathname === "/registrasi"
     ) {
-      return NextResponse.redirect(new URL("/dashboard", request.url));
+      return NextResponse.redirect(new URL("/overview", request.url));
     }
   } catch {
     const response = NextResponse.redirect(new URL("/", request.url));
