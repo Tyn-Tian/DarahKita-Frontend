@@ -1,4 +1,4 @@
-import DonorScheduleDetail from "@/components/module/dashboard/donation/donor-schedule-detail";
+import DonorScheduleTable from "@/components/module/dashboard/donor-schedule/donor-schedule-table";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -10,13 +10,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const id = (await params).id;
-
+export default function Page() {
   return (
     <>
       <SidebarInset>
@@ -31,18 +25,14 @@ export default async function Page({
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="/donation">Donation</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Donor Detail</BreadcrumbPage>
+                  <BreadcrumbPage>Donor Schedule</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
           </div>
         </header>
         <div className="p-4 pt-0">
-          <DonorScheduleDetail id={id} />
+          <DonorScheduleTable />
         </div>
       </SidebarInset>
     </>

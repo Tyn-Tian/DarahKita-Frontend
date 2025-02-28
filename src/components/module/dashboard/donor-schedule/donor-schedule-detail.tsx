@@ -161,7 +161,7 @@ export default function DonorScheduleDetail({ id }: { id: string }) {
 
             <div className="flex gap-3 justify-end">
               <Button variant="destructive" asChild>
-                <Link href="/donation">Kembali</Link>
+                <Link href="/donor-schedulue">Kembali</Link>
               </Button>
               {data?.isDonor && <RegistButton onRegist={onRegist} />}
             </div>

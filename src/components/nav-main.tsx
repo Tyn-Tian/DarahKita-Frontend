@@ -49,9 +49,9 @@ export function NavMain({
           </Link>
         </SidebarMenuButton>
         <SidebarMenuButton asChild>
-          <Link href="/donation">
+          <Link href="/donor-schedule">
             <Syringe />
-            <span>Donation</span>
+            <span>Donor Schedule</span>
           </Link>
         </SidebarMenuButton>
         <SidebarMenuButton asChild>

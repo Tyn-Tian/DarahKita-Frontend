@@ -60,7 +60,7 @@ export const columns: ColumnDef<BloodScheduleData>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem asChild>
-              <Link href={`/donation/${bloodSchedule.id}`}>Lihat Detail</Link>
+              <Link href={`/donor-schedule/${bloodSchedule.id}`}>Lihat Detail</Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
