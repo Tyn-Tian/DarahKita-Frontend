@@ -10,7 +10,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getDonationsByMonth } from "@/services/dashboard/dashbaordService";
+import { getDonationsByMonth } from "@/services/overview/overviewService";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const chartConfig = {
@@ -38,9 +38,9 @@ export function SumDonorChart() {
       Donor: n.donations ?? 0,
     };
   });
-  
+
   if (isLoading) {
-    return <Skeleton className="aspect-video rounded-xl" />
+    return <Skeleton className="aspect-video rounded-xl" />;
   }
 
   return (

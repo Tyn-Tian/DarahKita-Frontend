@@ -17,7 +17,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getTopDonors } from "@/services/dashboard/dashbaordService";
+import { getTopDonors } from "@/services/overview/overviewService";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const chartConfig = {
