@@ -32,7 +32,9 @@ const FormSchema = z
     name: z.string().nonempty({ message: "Nama tidak boleh kosong" }),
     email: z.string().email({ message: "Email tidak valid" }),
     password: z.string().min(8, { message: "Password minimal 8 karakter" }),
-    confirmPassword: z.string().min(8, { message: "Konfirmasi password minimal 8 karakter" }),
+    confirmPassword: z
+      .string()
+      .min(8, { message: "Konfirmasi password minimal 8 karakter" }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Password dan konfirmasi password tidak cocok",
@@ -94,7 +96,10 @@ export function RegisterForm() {
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="w-full space-y-4"
+            >
               <FormField
                 control={form.control}
                 name="name"
@@ -129,13 +134,21 @@ export function RegisterForm() {
                     <FormLabel>Password</FormLabel>
                     <FormControl>
                       <div className="relative">
-                        <Input type={showPassword ? "text" : "password"} placeholder="Masukan Password Anda" {...field} />
+                        <Input
+                          type={showPassword ? "text" : "password"}
+                          placeholder="Masukan Password Anda"
+                          {...field}
+                        />
                         <button
                           type="button"
-                          className="absolute inset-y-0 right-3 flex items-center"
+                          className="absolute inset-y-0 right-3 flex items-center opacity-75"
                           onClick={() => setShowPassword((prev) => !prev)}
                         >
-                          {showPassword ? <EyeOffIcon size={20} /> : <EyeIcon size={20} />}
+                          {showPassword ? (
+                            <EyeOffIcon size={18} />
+                          ) : (
+                            <EyeIcon size={18} />
+                          )}
                         </button>
                       </div>
                     </FormControl>
@@ -151,13 +164,23 @@ export function RegisterForm() {
                     <FormLabel>Konfirmasi Password</FormLabel>
                     <FormControl>
                       <div className="relative">
-                        <Input type={showConfirmPassword ? "text" : "password"} placeholder="Masukan Konfirmasi Password" {...field} />
+                        <Input
+                          type={showConfirmPassword ? "text" : "password"}
+                          placeholder="Masukan Konfirmasi Password"
+                          {...field}
+                        />
                         <button
                           type="button"
-                          className="absolute inset-y-0 right-3 flex items-center"
-                          onClick={() => setShowConfirmPassword((prev) => !prev)}
+                          className="absolute inset-y-0 right-3 flex items-center opacity-75"
+                          onClick={() =>
+                            setShowConfirmPassword((prev) => !prev)
+                          }
                         >
-                          {showConfirmPassword ? <EyeOffIcon size={20} /> : <EyeIcon size={20} />}
+                          {showConfirmPassword ? (
+                            <EyeOffIcon size={18} />
+                          ) : (
+                            <EyeIcon size={18} />
+                          )}
                         </button>
                       </div>
                     </FormControl>
@@ -166,10 +189,15 @@ export function RegisterForm() {
                 )}
               />
 
-              <Button type="submit" className="w-full">Register</Button>
+              <Button type="submit" className="w-full">
+                Register
+              </Button>
 
               <div className="mt-4 text-center text-sm">
-                Sudah punya akun? <Link href="/" className="underline underline-offset-4">Sign in</Link>
+                Sudah punya akun?{" "}
+                <Link href="/" className="underline underline-offset-4">
+                  Sign in
+                </Link>
               </div>
             </form>
           </Form>
