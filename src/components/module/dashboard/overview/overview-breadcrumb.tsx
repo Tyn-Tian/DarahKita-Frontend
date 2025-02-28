@@ -4,7 +4,7 @@ import { BreadcrumbItem, BreadcrumbPage } from "@/components/ui/breadcrumb";
 import { getProfile } from "@/services/profile/profileService";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-export default function DashboardBreadcrumb() {
+export default function OverviewBreadcrumb() {
   const queryClient = useQueryClient();
 
   const { data: profile } = useQuery({

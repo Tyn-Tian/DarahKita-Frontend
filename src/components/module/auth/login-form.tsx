@@ -65,7 +65,7 @@ export function LoginForm({
           title: "Login Berhasil",
           description: "Anda berhasil login.",
         });
-        router.push("/dashboard");
+        router.push("/overview");
       }
     },
     onError: () => {

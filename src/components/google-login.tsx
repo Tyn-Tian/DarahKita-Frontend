@@ -44,7 +44,7 @@ const GoogleLoginComponent: React.FC = () => {
           duration: 3000,
         });
 
-        router.push("/dashboard");
+        router.push("/overview");
       } else if (response.error === "Email not found") {
         toast({
           title: "Login Gagal",

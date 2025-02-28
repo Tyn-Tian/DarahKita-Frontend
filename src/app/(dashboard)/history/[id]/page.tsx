@@ -27,7 +27,7 @@ export default async function Page({
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="/dashboard">Home</BreadcrumbLink>
+                  <BreadcrumbLink href="/overview">Home</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>

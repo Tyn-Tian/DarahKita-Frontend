@@ -43,7 +43,7 @@ export function NavMain({
       <SidebarGroupLabel>Navigasi</SidebarGroupLabel>
       <SidebarMenu>
         <SidebarMenuButton asChild>
-          <Link href="/dashboard">
+          <Link href="/overview">
             <ChartNoAxesGantt />
             <span>Overview</span>
           </Link>

@@ -1,5 +1,4 @@
 import { BloodStockChart } from "@/components/module/dashboard/overview/blood-stock-chart";
-import DashboardBreadcrumb from "@/components/module/dashboard/overview/dashboard-breadcrumb";
 import { LeaderboardDonorChart } from "@/components/module/dashboard/overview/leaderboard-donor-chart";
 import { SumDonorChart } from "@/components/module/dashboard/overview/sum-donor-chart";
 import {
@@ -11,6 +10,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
+import OverviewBreadcrumb from "@/components/module/dashboard/overview/overview-breadcrumb";
 
 export default function Page() {
   return (
@@ -23,10 +23,10 @@ export default function Page() {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="/dashboard">Home</BreadcrumbLink>
+                  <BreadcrumbLink href="/overview">Home</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
-                <DashboardBreadcrumb />
+                <OverviewBreadcrumb />
               </BreadcrumbList>
             </Breadcrumb>
           </div>
