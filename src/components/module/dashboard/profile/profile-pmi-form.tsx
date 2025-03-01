@@ -29,7 +29,7 @@ import { z } from "zod";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import CancelButton from "./cancel-button";
-import SubmitButton from "./submit-button";
+import SubmitButton from "../../../submit-button";
 import ProfileSkeleton from "./profile-skeleton";
 
 const FormSchema = z.object({

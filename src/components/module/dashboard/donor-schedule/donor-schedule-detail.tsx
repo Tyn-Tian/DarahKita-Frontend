@@ -7,22 +7,55 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { formatDateIntl } from "@/lib/utils";
+import { formatDateIntl, getUserRole } from "@/lib/utils";
 import {
   getDonorScheduleDetail,
   postRegisterDonorSchedule,
+  postUpdateDonorSchedule,
 } from "@/services/donation/donationService";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AlertCircle, Syringe } from "lucide-react";
 import Link from "next/link";
 import RegistButton from "./regist-button";
 import DonorScheduleDetailSkeleton from "./donor-schedule-detail-skeleton";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import SubmitButton from "@/components/submit-button";
+
+const FormSchema = z.object({
+  date: z
+    .string()
+    .nonempty({ message: "Tanggal pelaksanaan tidak boleh kosong" }),
+  location: z
+    .string()
+    .nonempty({ message: "Lokasi tidak boleh kosong" })
+    .min(10, { message: "Alamat harus terdiri dari minimal 10 karakter" })
+    .max(100, { message: "Alamat tidak boleh lebih dari 100 karakter" }),
+  time: z
+    .string()
+    .nonempty({ message: "Waktu pelaksanaan tidak boleh kosong" }),
+});
 
 export default function DonorScheduleDetail({ id }: { id: string }) {
   const queryClient = useQueryClient();
   const { toast } = useToast();
+  const isPmi = getUserRole() === "pmi";
 
-  const { data, isLoading } = useQuery({
+  const {
+    data: donorSchedule,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["donor-schedule-detail", id],
     queryFn: async () => {
       const response = await getDonorScheduleDetail(id);
@@ -31,7 +64,35 @@ export default function DonorScheduleDetail({ id }: { id: string }) {
     initialData: () => queryClient.getQueryData(["donor-schedule-detail"]),
   });
 
-  const mutation = useMutation({
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    values: donorSchedule
+      ? donorSchedule
+      : {
+          date: "",
+          location: "",
+          time: "",
+        },
+  });
+
+  useEffect(() => {
+    if (donorSchedule) {
+      form.reset(donorSchedule);
+    }
+  }, [donorSchedule, form]);
+
+  useEffect(() => {
+    if (error) {
+      toast({
+        title: "Fetch Data Jadwal Donor Gagal",
+        description:
+          "Terjadi kesalahan saat fetch data jadwal donor. Coba reload website",
+        variant: "destructive",
+      });
+    }
+  });
+
+  const registDonorScheduleMutation = useMutation({
     mutationFn: async () => {
       await postRegisterDonorSchedule(id);
     },
@@ -53,7 +114,30 @@ export default function DonorScheduleDetail({ id }: { id: string }) {
     },
   });
 
-  const onRegist = () => mutation.mutate();
+  const updateDonorScheduleMutation = useMutation({
+    mutationFn: async (data: z.infer<typeof FormSchema>) => {
+      await postUpdateDonorSchedule(id, data);
+    },
+    onSuccess: () => {
+      toast({
+        title: "Update Jadwal Donor Berhasil",
+        description: "Anda berhasil update data jadwal donor",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["donor-schedule-detail", id],
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Gagal",
+        description: "Terjadi kesalahan saat memperbarui jadwal donor",
+      });
+    },
+  });
+
+  const onRegist = () => registDonorScheduleMutation.mutate();
+  const onSubmit = (data: z.infer<typeof FormSchema>) =>
+    updateDonorScheduleMutation.mutate(data);
 
   return (
     <div>
@@ -61,111 +145,164 @@ export default function DonorScheduleDetail({ id }: { id: string }) {
         <DonorScheduleDetailSkeleton />
       ) : (
         <div className="flex justify-center">
-          <div className="mb-5 sm:w-3/5">
-            <h2 className="text-base/7 font-semibold text-gray-900">
-              Detail Jadwal Donor Darah
-            </h2>
-            <p className="mt-1 text-sm/6 text-gray-600">
-              Ini adalah informasi detail mengenai jadwal donor darah.
-            </p>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="mb-5 sm:w-3/5"
+              noValidate
+            >
+              <h2 className="text-base/7 font-semibold text-gray-900">
+                Detail Jadwal Donor Darah
+              </h2>
+              <p className="mt-1 text-sm/6 text-gray-600">
+                Ini adalah informasi detail mengenai jadwal donor darah.
+              </p>
 
-            {!data?.isDonor &&
-              !data?.isScheduleRegistered &&
-              !data?.isRegistered && (
-                <Alert variant="destructive" className="mt-3 -mb-3">
-                  <AlertCircle className="w-4 h-4" />
-                  <AlertTitle>Pemberitahuan</AlertTitle>
-                  <AlertDescription>
-                    Anda belum bisa melakukan pendaftaran donor darah. Karena
-                    belum 4 bulan semenjak donor darah terakhir. [
-                    {formatDateIntl(data?.lastDonation ?? "")}]
-                  </AlertDescription>
-                </Alert>
+              {!isPmi && (
+                <>
+                  {!donorSchedule?.isDonor &&
+                    !donorSchedule?.isScheduleRegistered &&
+                    !donorSchedule?.isRegistered && (
+                      <Alert variant="destructive" className="mt-3 -mb-3">
+                        <AlertCircle className="w-4 h-4" />
+                        <AlertTitle>Pemberitahuan</AlertTitle>
+                        <AlertDescription>
+                          Anda belum bisa melakukan pendaftaran donor darah.
+                          Karena belum 4 bulan semenjak donor darah terakhir. [
+                          {formatDateIntl(donorSchedule?.lastDonation ?? "")}]
+                        </AlertDescription>
+                      </Alert>
+                    )}
+
+                  {donorSchedule?.isScheduleRegistered && (
+                    <Alert className="mt-3 -mb-3">
+                      <Syringe className="w-4 h-4" />
+                      <AlertTitle>Pemberitahuan</AlertTitle>
+                      <AlertDescription>
+                        Anda sudah melakukan pendaftaran pada jadwal donor darah
+                        ini.
+                      </AlertDescription>
+                    </Alert>
+                  )}
+
+                  {donorSchedule?.isRegistered &&
+                    !donorSchedule?.isScheduleRegistered && (
+                      <Alert className="mt-3 -mb-3">
+                        <Syringe className="w-4 h-4" />
+                        <AlertTitle>Pemberitahuan</AlertTitle>
+                        <AlertDescription>
+                          Anda sudah melakukan pendaftaran pada jadwal donor
+                          darah lain.
+                        </AlertDescription>
+                      </Alert>
+                    )}
+                </>
               )}
 
-            {data?.isScheduleRegistered && (
-              <Alert className="mt-3 -mb-3">
-                <Syringe className="w-4 h-4" />
-                <AlertTitle>Pemberitahuan</AlertTitle>
-                <AlertDescription>
-                  Anda sudah melakukan pendaftaran pada jadwal donor darah ini.
-                </AlertDescription>
-              </Alert>
-            )}
-
-            {data?.isRegistered && !data?.isScheduleRegistered && (
-              <Alert className="mt-3 -mb-3">
-                <Syringe className="w-4 h-4" />
-                <AlertTitle>Pemberitahuan</AlertTitle>
-                <AlertDescription>
-                  Anda sudah melakukan pendaftaran pada jadwal donor darah lain.
-                </AlertDescription>
-              </Alert>
-            )}
-
-            <div className="mt-6">
-              <Label htmlFor="date">Tanggal Pelaksanaan</Label>
-              <Input
-                className="text-sm sm:text-base sm:w-min mt-2"
-                id="date"
-                type="date"
-                value={data ? data.date : ""}
-                readOnly
+              <FormField
+                control={form.control}
+                name="date"
+                render={({ field }) => (
+                  <FormItem className="mt-6">
+                    <FormLabel>Tanggal Pelaksanaan</FormLabel>
+                    <FormControl>
+                      <Input
+                        className="text-sm sm:text-base sm:w-min"
+                        type="date"
+                        readOnly={!isPmi}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
 
-            <div className="mt-6">
-              <Label htmlFor="location">Lokasi</Label>
-              <Textarea
-                className="text-sm sm:text-base sm:w-4/5 mt-2"
-                id="location"
-                value={data ? data.location : ""}
-                readOnly
+              <FormField
+                control={form.control}
+                name="location"
+                render={({ field }) => (
+                  <FormItem className="mt-6">
+                    <FormLabel>Lokasi</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        className="text-sm sm:text-base sm:w-4/5"
+                        readOnly={!isPmi}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
 
-            <div className="mt-6">
-              <Label htmlFor="time">Waktu Pelaksanaan</Label>
-              <Input
-                className="text-sm sm:text-base sm:w-min mt-2"
-                id="time"
-                type="time"
-                value={data ? data.time : ""}
-                readOnly
+              <FormField
+                control={form.control}
+                name="time"
+                render={({ field }) => (
+                  <FormItem className="mt-6">
+                    <FormLabel>Tanggal Pelaksanaan</FormLabel>
+                    <FormControl>
+                      <Input
+                        className="text-sm sm:text-base sm:w-min"
+                        type="time"
+                        readOnly={!isPmi}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
 
-            <div className="mt-6">
-              <Label htmlFor="pmi_center">PMI Pelaksana</Label>
-              <Input
-                className="text-sm sm:text-base sm:w-1/2 mt-2"
-                id="pmi_center"
-                type="text"
-                value={data ? data.name : ""}
-                readOnly
-              />
-            </div>
+              {!isPmi && (
+                <>
+                  <div className="mt-6">
+                    <Label htmlFor="pmi_center">PMI Pelaksana</Label>
+                    <Input
+                      className="text-sm sm:text-base sm:w-1/2 mt-2"
+                      id="pmi_center"
+                      type="text"
+                      value={donorSchedule ? donorSchedule.name : ""}
+                      readOnly
+                    />
+                  </div>
 
-            <div className="mt-6">
-              <Label htmlFor="contact">Kontak Pelaksana</Label>
-              <Input
-                className="text-sm sm:text-base sm:w-min mt-2"
-                id="contact"
-                type="number"
-                value={data ? data.contact : ""}
-                readOnly
-              />
-            </div>
+                  <div className="mt-6">
+                    <Label htmlFor="contact">Kontak Pelaksana</Label>
+                    <Input
+                      className="text-sm sm:text-base sm:w-min mt-2"
+                      id="contact"
+                      type="text"
+                      value={donorSchedule ? donorSchedule.contact : ""}
+                      readOnly
+                    />
+                  </div>
+                </>
+              )}
 
-            <Separator className="mt-10 mb-5" />
+              <Separator className="mt-10 mb-5" />
 
-            <div className="flex gap-3 justify-end">
-              <Button variant="destructive" asChild>
-                <Link href="/donor-schedulue">Kembali</Link>
-              </Button>
-              {data?.isDonor && <RegistButton onRegist={onRegist} />}
-            </div>
-          </div>
+              <div className="flex gap-3 justify-end">
+                <Button type="button" variant="destructive" asChild>
+                  <Link href="/donor-schedule">Kembali</Link>
+                </Button>
+                {!isPmi && (
+                  <>
+                    {donorSchedule?.isDonor && (
+                      <RegistButton onRegist={onRegist} />
+                    )}
+                  </>
+                )}
+                {isPmi && (
+                  <SubmitButton
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    isLoading={updateDonorScheduleMutation.isPending}
+                  />
+                )}
+              </div>
+            </form>
+          </Form>
         </div>
       )}
     </div>

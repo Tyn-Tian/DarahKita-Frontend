@@ -4,6 +4,12 @@ export type BloodSchedulesParams = {
   city: string;
 };
 
+export type UpdateDonorScheduleParams = {
+  date: string;
+  location: string;
+  time: string;
+};
+
 export type BloodScheduleData = {
   id: string;
   date: string;
