@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { formatDateIntl, formatTime } from "@/lib/utils";
-import { BloodScheduleData } from "@/services/donation/donationType";
+import { BloodScheduleData } from "@/services/donor-schedule/donorScheduleType";
 import Link from "next/link";
 
 export const columns: ColumnDef<BloodScheduleData>[] = [
@@ -60,7 +60,9 @@ export const columns: ColumnDef<BloodScheduleData>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem asChild>
-              <Link href={`/donor-schedule/${bloodSchedule.id}`}>Lihat Detail</Link>
+              <Link href={`/donor-schedule/${bloodSchedule.id}`}>
+                Lihat Detail
+              </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

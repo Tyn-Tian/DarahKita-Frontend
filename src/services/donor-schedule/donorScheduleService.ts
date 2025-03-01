@@ -1,12 +1,12 @@
 import { getJWTToken } from "@/lib/utils";
 import axios from "axios";
 import {
-  BloodScheduleDetailResponse,
-  BloodSchedulesParams,
-  BloodSchedulesResponse,
-  RegisterBloodScheduleResponse,
+  DonorScheduleDetailResponse,
+  DonorSchedulesParams,
+  DonorSchedulesResponse,
+  RegisterDonorScheduleResponse,
   UpdateDonorScheduleParams,
-} from "./donationType";
+} from "./donorScheduleType";
 
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
 
@@ -14,7 +14,7 @@ export const getDonorSchedules = async ({
   page,
   per_page,
   city,
-}: BloodSchedulesParams): Promise<BloodSchedulesResponse> => {
+}: DonorSchedulesParams): Promise<DonorSchedulesResponse> => {
   try {
     const token = getJWTToken();
 
@@ -34,7 +34,7 @@ export const getDonorSchedules = async ({
 
 export const getDonorScheduleDetail = async (
   id: string
-): Promise<BloodScheduleDetailResponse> => {
+): Promise<DonorScheduleDetailResponse> => {
   try {
     const token = getJWTToken();
 
@@ -53,7 +53,7 @@ export const getDonorScheduleDetail = async (
 
 export const postRegisterDonorSchedule = async (
   id: string
-): Promise<RegisterBloodScheduleResponse> => {
+): Promise<RegisterDonorScheduleResponse> => {
   try {
     const token = getJWTToken();
 

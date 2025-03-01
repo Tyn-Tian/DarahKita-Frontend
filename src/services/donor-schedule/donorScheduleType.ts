@@ -1,4 +1,4 @@
-export type BloodSchedulesParams = {
+export type DonorSchedulesParams = {
   page: number;
   per_page: number;
   city: string;
@@ -10,7 +10,7 @@ export type UpdateDonorScheduleParams = {
   time: string;
 };
 
-export type BloodScheduleData = {
+export type DonorScheduleData = {
   id: string;
   date: string;
   location: string;
@@ -19,7 +19,7 @@ export type BloodScheduleData = {
   contact: string;
 };
 
-export type BloodScheduleDetailData = {
+export type DonorScheduleDetailData = {
   id: string;
   date: string;
   location: string;
@@ -39,20 +39,20 @@ type PaginationData = {
   total: number;
 };
 
-export interface BloodSchedulesResponse {
+export interface DonorSchedulesResponse {
   success: boolean;
   message: string;
-  data: BloodScheduleData[];
+  data: DonorScheduleData[];
   pagination: PaginationData;
 }
 
-export interface BloodScheduleDetailResponse {
+export interface DonorScheduleDetailResponse {
   success: boolean;
   message: string;
-  data: BloodScheduleDetailData;
+  data: DonorScheduleDetailData;
 }
 
-export interface RegisterBloodScheduleResponse {
+export interface RegisterDonorScheduleResponse {
   success: boolean;
   message: string;
 }

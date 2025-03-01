@@ -12,7 +12,7 @@ import {
   getDonorScheduleDetail,
   postRegisterDonorSchedule,
   postUpdateDonorSchedule,
-} from "@/services/donation/donationService";
+} from "@/services/donor-schedule/donorScheduleService";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AlertCircle, Syringe } from "lucide-react";
 import Link from "next/link";

@@ -27,8 +27,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { BloodScheduleData } from "@/services/donation/donationType";
-import { getDonorSchedules } from "@/services/donation/donationService";
+import { BloodScheduleData } from "@/services/donor-schedule/donorScheduleType";
+import { getDonorSchedules } from "@/services/donor-schedule/donorScheduleService";
 import TableSkeleton from "@/components/table-skeleton";
 
 interface DataTableProps {
@@ -114,10 +114,7 @@ export function DataTable({ columns }: DataTableProps) {
           </TableHeader>
           <TableBody>
             {isLoading ? (
-              <TableSkeleton
-                columnCount={columns.length}
-                rowCount={pageSize}
-              />
+              <TableSkeleton columnCount={columns.length} rowCount={pageSize} />
             ) : table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
