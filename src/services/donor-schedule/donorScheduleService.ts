@@ -1,6 +1,7 @@
 import { getJWTToken } from "@/lib/utils";
 import axios from "axios";
 import {
+  CreateDonorScheduleParams,
   DonorScheduleDetailResponse,
   DonorSchedulesParams,
   DonorSchedulesResponse,
@@ -91,6 +92,25 @@ export const postUpdateDonorSchedule = async (
         },
       }
     );
+
+    return response.data;
+  } catch (error) {
+    throw new Error(`Failed to fetch: ${error}`);
+  }
+};
+
+export const postCreateDonorSchedule = async (
+  data: CreateDonorScheduleParams
+): Promise<{ success: boolean; message: string }> => {
+  try {
+    const token = getJWTToken();
+
+    const response = await axios.post(`${API_URL}/donor-schedules`, data, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     return response.data;
   } catch (error) {

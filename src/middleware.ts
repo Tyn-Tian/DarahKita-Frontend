@@ -16,8 +16,9 @@ export async function middleware(request: NextRequest) {
   }
 
   try {
-    const { exp } = jwtDecode<{
+    const { exp, role } = jwtDecode<{
       exp?: number;
+      role: string;
     }>(authToken);
 
     if (exp) {
@@ -34,6 +35,18 @@ export async function middleware(request: NextRequest) {
       request.nextUrl.pathname === "/" ||
       request.nextUrl.pathname === "/registrasi"
     ) {
+      return NextResponse.redirect(new URL("/overview", request.url));
+    }
+
+    const restrictedPaths: Record<string, string[]> = {
+      donor: ["/donor-schedule/create-schedule"],
+    };
+
+    const isRestricted = (restrictedPaths[role] || []).some((path) =>
+      request.nextUrl.pathname.startsWith(path)
+    );
+
+    if (isRestricted) {
       return NextResponse.redirect(new URL("/overview", request.url));
     }
   } catch {
@@ -54,6 +67,7 @@ export const config = {
     "/overview",
     "/profile",
     "/donor-schedule",
+    "/donor-schedule/create-schedule",
     "/donor-schedule/:path*",
     "/history",
     "/history/:path",

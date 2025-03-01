@@ -27,18 +27,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { BloodScheduleData } from "@/services/donor-schedule/donorScheduleType";
 import { getDonorSchedules } from "@/services/donor-schedule/donorScheduleService";
 import TableSkeleton from "@/components/table-skeleton";
+import { DonorScheduleData } from "@/services/donor-schedule/donorScheduleType";
+import { getUserRole } from "@/lib/utils";
+import Link from "next/link";
 
 interface DataTableProps {
-  columns: ColumnDef<BloodScheduleData, unknown>[];
+  columns: ColumnDef<DonorScheduleData, unknown>[];
 }
 
 export function DataTable({ columns }: DataTableProps) {
   const [pageIndex, setPageIndex] = useState(1);
   const [selectedCity, setSelectedCity] = useState("");
   const pageSize = 5;
+  const isPmi = getUserRole() === "pmi";
 
   const queryClient = useQueryClient();
 
@@ -56,7 +59,7 @@ export function DataTable({ columns }: DataTableProps) {
     placeholderData: (previousData) => previousData,
   });
 
-  const table = useReactTable<BloodScheduleData>({
+  const table = useReactTable<DonorScheduleData>({
     data: data?.data || [],
     columns,
     getCoreRowModel: getCoreRowModel(),
@@ -68,28 +71,34 @@ export function DataTable({ columns }: DataTableProps) {
   return (
     <div>
       <div className="w-full flex mb-4 justify-end">
-        <Select
-          onValueChange={(value) => {
-            setSelectedCity(value);
-            setPageIndex(1);
-          }}
-          value={selectedCity}
-        >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Pilih Kota" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value="pangkalpinang">Pangkalpinang</SelectItem>
-              <SelectItem value="bangka">Bangka</SelectItem>
-              <SelectItem value="bangka_barat">Bangka Barat</SelectItem>
-              <SelectItem value="bangka_selatan">Bangka Selatan</SelectItem>
-              <SelectItem value="bangka_tengah">Bangka Tengah</SelectItem>
-              <SelectItem value="belitung">Belitung</SelectItem>
-              <SelectItem value="belitung_timur">Belitung Timur</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+        {isPmi ? (
+          <Button asChild>
+            <Link href="/donor-schedule/create-schedule">Tambah Jadwal</Link>
+          </Button>
+        ) : (
+          <Select
+            onValueChange={(value) => {
+              setSelectedCity(value);
+              setPageIndex(1);
+            }}
+            value={selectedCity}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Pilih Kota" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="pangkalpinang">Pangkalpinang</SelectItem>
+                <SelectItem value="bangka">Bangka</SelectItem>
+                <SelectItem value="bangka_barat">Bangka Barat</SelectItem>
+                <SelectItem value="bangka_selatan">Bangka Selatan</SelectItem>
+                <SelectItem value="bangka_tengah">Bangka Tengah</SelectItem>
+                <SelectItem value="belitung">Belitung</SelectItem>
+                <SelectItem value="belitung_timur">Belitung Timur</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        )}
       </div>
 
       <div className="rounded-md border">
@@ -137,7 +146,9 @@ export function DataTable({ columns }: DataTableProps) {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  Belum Ada Jadwal Donor Darah.
+                  {isPmi
+                    ? "Anda Belum Membuat Jadwal Donor Darah."
+                    : "Belum Ada Jadwal Donor Darah."}
                 </TableCell>
               </TableRow>
             )}

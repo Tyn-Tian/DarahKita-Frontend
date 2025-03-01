@@ -10,6 +10,12 @@ export type UpdateDonorScheduleParams = {
   time: string;
 };
 
+export type CreateDonorScheduleParams = {
+  date: string;
+  location: string;
+  time: string;
+};
+
 export type DonorScheduleData = {
   id: string;
   date: string;

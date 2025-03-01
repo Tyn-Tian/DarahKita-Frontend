@@ -12,10 +12,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { formatDateIntl, formatTime } from "@/lib/utils";
-import { BloodScheduleData } from "@/services/donor-schedule/donorScheduleType";
+import { DonorScheduleData } from "@/services/donor-schedule/donorScheduleType";
 import Link from "next/link";
 
-export const columns: ColumnDef<BloodScheduleData>[] = [
+export const columns: ColumnDef<DonorScheduleData>[] = [
   {
     accessorKey: "date",
     header: "Tanggal Pelaksanaan",
