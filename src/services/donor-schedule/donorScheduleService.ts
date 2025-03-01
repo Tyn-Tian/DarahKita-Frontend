@@ -3,6 +3,8 @@ import axios from "axios";
 import {
   CreateDonorScheduleParams,
   DonorScheduleDetailResponse,
+  DonorScheduleParticipantsParams,
+  DonorScheduleParticipantsResponse,
   DonorSchedulesParams,
   DonorSchedulesResponse,
   RegisterDonorScheduleResponse,
@@ -111,6 +113,30 @@ export const postCreateDonorSchedule = async (
         Authorization: `Bearer ${token}`,
       },
     });
+
+    return response.data;
+  } catch (error) {
+    throw new Error(`Failed to fetch: ${error}`);
+  }
+};
+
+export const getDonorScheduleParticipants = async (
+  id: string,
+  { page, per_page }: DonorScheduleParticipantsParams
+): Promise<DonorScheduleParticipantsResponse> => {
+  try {
+    const token = getJWTToken();
+
+    const response = await axios.get(
+      `${API_URL}/donor-schedules/${id}/participants`,
+      {
+        params: { page, per_page },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     return response.data;
   } catch (error) {

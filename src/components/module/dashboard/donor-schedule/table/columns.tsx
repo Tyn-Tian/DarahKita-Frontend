@@ -11,9 +11,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { formatDateIntl, formatTime } from "@/lib/utils";
+import { formatDateIntl, formatTime, getUserRole } from "@/lib/utils";
 import { DonorScheduleData } from "@/services/donor-schedule/donorScheduleType";
 import Link from "next/link";
+
+const isPmi = getUserRole() === "pmi";
 
 export const columns: ColumnDef<DonorScheduleData>[] = [
   {
@@ -64,6 +66,13 @@ export const columns: ColumnDef<DonorScheduleData>[] = [
                 Lihat Detail
               </Link>
             </DropdownMenuItem>
+            {isPmi && (
+              <DropdownMenuItem asChild>
+                <Link href={`/donor-schedule/${bloodSchedule.id}/participant`}>
+                  Lihat Peserta
+                </Link>
+              </DropdownMenuItem>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       );

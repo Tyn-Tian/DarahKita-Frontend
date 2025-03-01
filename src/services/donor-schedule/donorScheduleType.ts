@@ -16,6 +16,11 @@ export type CreateDonorScheduleParams = {
   time: string;
 };
 
+export type DonorScheduleParticipantsParams = {
+  page: number;
+  per_page: number;
+};
+
 export type DonorScheduleData = {
   id: string;
   date: string;
@@ -36,6 +41,16 @@ export type DonorScheduleDetailData = {
   isDonor: boolean;
   isScheduleRegistered: boolean;
   isRegistered: boolean;
+};
+
+export type DonorScheduleParticipantData = {
+  id: string;
+  name: string;
+  status: string;
+  contact: string;
+  blood: string;
+  rhesus: string;
+  last_donation: string;
 };
 
 type PaginationData = {
@@ -61,4 +76,11 @@ export interface DonorScheduleDetailResponse {
 export interface RegisterDonorScheduleResponse {
   success: boolean;
   message: string;
+}
+
+export interface DonorScheduleParticipantsResponse {
+  success: boolean;
+  message: string;
+  data: DonorScheduleParticipantData[];
+  pagination: PaginationData;
 }
