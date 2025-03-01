@@ -20,8 +20,8 @@ import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import {
-  getProfile,
-  postUpdateProfile,
+  getPmiProfile,
+  postUpdatePmiProfile,
 } from "@/services/profile/profileService";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -38,7 +38,9 @@ const FormSchema = z.object({
     .nonempty({ message: "Nama tidak boleh kosong" })
     .min(3, { message: "Nama harus terdiri dari minimal 3 karakter" })
     .max(40, { message: "Nama tidak boleh lebih dari 40 karakter" })
-    .regex(/^[a-zA-Z\s]+$/, { message: "Nama hanya boleh berisi huruf dan spasi" }),
+    .regex(/^[a-zA-Z\s]+$/, {
+      message: "Nama hanya boleh berisi huruf dan spasi",
+    }),
   email: z.string().email({ message: "Email tidak valid" }),
   address: z
     .string()
@@ -49,18 +51,24 @@ const FormSchema = z.object({
   phone: z
     .string()
     .nonempty({ message: "Nomor telepon tidak boleh kosong" })
-    .regex(/^(0|\+62)/, { message: "Nomor telepon harus diawali dengan 0 atau +62" })
-    .refine((value) => {
-      const numberPart = value.startsWith("+62") ? value.slice(3) : value.slice(1);
-      return numberPart.length >= 9 && numberPart.length <= 13;
-    }, {
-      message: "Nomor harus terdiri dari minimal 9 digit dan maksimal 13 digit",
-    }),
-  blood: z.string().nonempty({ message: "Pilih golongan darah" }),
-  rhesus: z.string().nonempty({ message: "Pilih rhesus" }),
+    .regex(/^(0|\+62)/, {
+      message: "Nomor telepon harus diawali dengan 0 atau +62",
+    })
+    .refine(
+      (value) => {
+        const numberPart = value.startsWith("+62")
+          ? value.slice(3)
+          : value.slice(1);
+        return numberPart.length >= 9 && numberPart.length <= 13;
+      },
+      {
+        message:
+          "Nomor harus terdiri dari minimal 9 digit dan maksimal 13 digit",
+      }
+    ),
 });
 
-export function ProfileForm() {
+export function ProfilePmiForm() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
@@ -71,7 +79,7 @@ export function ProfileForm() {
   } = useQuery({
     queryKey: ["profile"],
     queryFn: async () => {
-      const response = await getProfile();
+      const response = await getPmiProfile();
       return response.data;
     },
     initialData: () => queryClient.getQueryData(["profile"]),
@@ -87,8 +95,6 @@ export function ProfileForm() {
           address: "",
           phone: "",
           city: "",
-          blood: "",
-          rhesus: "",
         },
   });
 
@@ -111,7 +117,7 @@ export function ProfileForm() {
 
   const mutation = useMutation({
     mutationFn: async (data: z.infer<typeof FormSchema>) => {
-      await postUpdateProfile(data);
+      await postUpdatePmiProfile(data);
     },
     onSuccess: () => {
       toast({
@@ -163,15 +169,6 @@ export function ProfileForm() {
               </FormItem>
             )}
           />
-
-          <Separator className="my-10" />
-
-          <h2 className="text-base/7 font-semibold text-gray-900">
-            Personal Information
-          </h2>
-          <p className="mt-1 text-sm/6 text-gray-600">
-            Use a permanent address where you can receive mail.
-          </p>
 
           <FormField
             name="email"
@@ -256,68 +253,6 @@ export function ProfileForm() {
               </FormItem>
             )}
           />
-
-          <div className="flex gap-3 sm:w-3/5">
-            <FormField
-              control={form.control}
-              name="blood"
-              render={({ field }) => (
-                <FormItem className="mt-6 w-3/5">
-                  <FormLabel>Golongan Darah</FormLabel>
-                  <Select
-                    key={field.value}
-                    onValueChange={field.onChange}
-                    value={field.value || ""}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          className="text-sm sm:text-base"
-                          placeholder="Pilih golongan darah"
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="a">A</SelectItem>
-                      <SelectItem value="b">B</SelectItem>
-                      <SelectItem value="o">O</SelectItem>
-                      <SelectItem value="ab">AB</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="rhesus"
-              render={({ field }) => (
-                <FormItem className="mt-6 w-2/5">
-                  <FormLabel>Rhesus</FormLabel>
-                  <Select
-                    key={field.value}
-                    onValueChange={field.onChange}
-                    value={field.value || ""}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          className="text-sm sm:text-base"
-                          placeholder="Pilih rhesus"
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="+">Rh+</SelectItem>
-                      <SelectItem value="-">Rh-</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
 
           <Separator className="mt-10 mb-5" />
 
