@@ -139,7 +139,19 @@ export function ProfilePmiForm() {
   const onSubmit = (data: z.infer<typeof FormSchema>) => mutation.mutate(data);
 
   if (isLoading) {
-    return <ProfileSkeleton />;
+    return <ProfileSkeleton 
+    ShowTitleprofile = {true}
+
+    showName = {true}
+    showGoldar = {false}
+    showRhesus = {false}
+    showSeparator = {false}
+    ShowTitlepersonal = {false}
+  
+    showEmail = {true}
+    showAddress = {true}
+    showCity = {true}
+    showPhone = {true} />;
   }
 
   return (
