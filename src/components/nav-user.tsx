@@ -4,18 +4,18 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { getProfile } from "@/services/profile/profileService";
+import { getUserRole } from "@/lib/utils";
+import { getPmiProfile, getProfile } from "@/services/profile/profileService";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function NavUser({}) {
   const queryClient = useQueryClient();
+  const role = getUserRole();
 
   const { data: profile } = useQuery({
     queryKey: ["profile"],
-    queryFn: async () => {
-      const response = await getProfile();
-      return response.data;
-    },
+    queryFn: async () =>
+      (role === "pmi" ? getPmiProfile() : getProfile()).then((res) => res.data),
     initialData: () => queryClient.getQueryData(["profile"]),
   });
 

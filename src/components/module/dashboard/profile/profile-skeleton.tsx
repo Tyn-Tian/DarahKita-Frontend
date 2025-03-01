@@ -11,6 +11,17 @@ export default function ProfileSkeleton() {
         <Skeleton className="h-5 w-16 mb-3" />
         <Skeleton className="h-9 w-full sm:w-96 mb-6" />
 
+        <div className="flex gap-3 sm:w-3/5">
+          <div className="w-3/5">
+            <Skeleton className="h-5 w-28 mb-3" />
+            <Skeleton className="h-9 w-full" />
+          </div>
+          <div className="w-2/5">
+            <Skeleton className="h-5 w-16 mb-3" />
+            <Skeleton className="h-9 w-full" />
+          </div>
+        </div>
+
         <Separator className="my-10" />
 
         <Skeleton className="h-5 w-32 mb-3" />
@@ -27,17 +38,6 @@ export default function ProfileSkeleton() {
 
         <Skeleton className="h-5 w-20 mb-3" />
         <Skeleton className="h-9 w-1/2 mb-6" />
-
-        <div className="flex gap-3 sm:w-3/5">
-          <div className="w-3/5">
-            <Skeleton className="h-5 w-28 mb-3" />
-            <Skeleton className="h-9 w-full" />
-          </div>
-          <div className="w-2/5">
-            <Skeleton className="h-5 w-16 mb-3" />
-            <Skeleton className="h-9 w-full" />
-          </div>
-        </div>
 
         <Separator className="mt-10 mb-5" />
 

@@ -1,4 +1,4 @@
-import { ProfileForm } from "@/components/module/dashboard/profile/profile-form";
+import ProfileDetail from "@/components/module/dashboard/profile/profile-detail";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -32,7 +32,7 @@ export default function Page() {
           </div>
         </header>
         <div className="p-4 pt-0">
-          <ProfileForm />
+          <ProfileDetail />
         </div>
       </SidebarInset>
     </>
