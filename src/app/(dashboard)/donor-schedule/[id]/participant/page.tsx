@@ -36,6 +36,10 @@ export default async function Page({
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
+                <BreadcrumbLink href={`/donor-schedule/${id}`}>
+                  Donor Schedule Detail
+                </BreadcrumbLink>
+                <BreadcrumbSeparator />
                 <BreadcrumbItem>
                   <BreadcrumbPage>Donor Schedule Participant</BreadcrumbPage>
                 </BreadcrumbItem>
