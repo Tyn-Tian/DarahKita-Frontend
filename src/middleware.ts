@@ -38,12 +38,16 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/overview", request.url));
     }
 
-    const restrictedPaths: Record<string, string[]> = {
-      donor: ["/donor-schedule/create-schedule"],
+    const restrictedPaths: Record<string, ((path: string) => boolean)[]> = {
+      donor: [
+        (path: string) => path.startsWith("/donor-schedule/create-schedule"),
+        (path: string) => /^\/donor-schedule\/[^/]+\/participant$/.test(path),
+      ],
+      pmi: [(path: string) => path.startsWith("/history")],
     };
 
-    const isRestricted = (restrictedPaths[role] || []).some((path) =>
-      request.nextUrl.pathname.startsWith(path)
+    const isRestricted = (restrictedPaths[role] || []).some((checkPath) =>
+      checkPath(request.nextUrl.pathname)
     );
 
     if (isRestricted) {
