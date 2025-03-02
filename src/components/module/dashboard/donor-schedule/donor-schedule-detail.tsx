@@ -50,6 +50,7 @@ export default function DonorScheduleDetail({ id }: { id: string }) {
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const isPmi = getUserRole() === "pmi";
+  const isDonor = !isPmi;
 
   const {
     data: donorSchedule,
@@ -139,11 +140,12 @@ export default function DonorScheduleDetail({ id }: { id: string }) {
   const onSubmit = (data: z.infer<typeof FormSchema>) =>
     updateDonorScheduleMutation.mutate(data);
 
+  if (isLoading) {
+    return <DonorScheduleDetailSkeleton isDonor={isDonor} />
+  }
+
   return (
     <div>
-      {isLoading ? (
-        <DonorScheduleDetailSkeleton isDonor={false} />
-      ) : (
         <div className="flex justify-center">
           <Form {...form}>
             <form
@@ -304,7 +306,6 @@ export default function DonorScheduleDetail({ id }: { id: string }) {
             </form>
           </Form>
         </div>
-      )}
     </div>
   );
 }
