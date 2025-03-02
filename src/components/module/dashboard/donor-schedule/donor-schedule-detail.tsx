@@ -142,7 +142,7 @@ export default function DonorScheduleDetail({ id }: { id: string }) {
   return (
     <div>
       {isLoading ? (
-        <DonorScheduleDetailSkeleton />
+        <DonorScheduleDetailSkeleton isDonor={false} />
       ) : (
         <div className="flex justify-center">
           <Form {...form}>
@@ -241,7 +241,7 @@ export default function DonorScheduleDetail({ id }: { id: string }) {
                 name="time"
                 render={({ field }) => (
                   <FormItem className="mt-6">
-                    <FormLabel>Tanggal Pelaksanaan</FormLabel>
+                    <FormLabel>Jam Pelaksanaan</FormLabel>
                     <FormControl>
                       <Input
                         className="text-sm sm:text-base sm:w-min"
