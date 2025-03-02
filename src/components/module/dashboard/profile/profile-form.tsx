@@ -143,7 +143,7 @@ export function ProfileForm() {
   const onSubmit = (data: z.infer<typeof FormSchema>) => mutation.mutate(data);
 
   if (isLoading) {
-    return <ProfileSkeleton />;
+    return <ProfileSkeleton isDonor={true} />;
   }
 
   return (
