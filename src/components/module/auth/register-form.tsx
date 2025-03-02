@@ -23,7 +23,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
-import { postCreateUser  } from "@/services/auth/authService";
+import { postCreateUser } from "@/services/auth/authService";
 import { useState } from "react";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 
@@ -33,7 +33,9 @@ const FormSchema = z
       .string()
       .min(3, { message: "Nama minimal 3 karakter" })
       .max(40, { message: "Nama maksimal 40 karakter" })
-      .regex(/^[A-Za-z\s]+$/, { message: "Nama hanya boleh berisi huruf dan spasi" }),
+      .regex(/^[A-Za-z\s]+$/, {
+        message: "Nama hanya boleh berisi huruf dan spasi",
+      }),
     email: z.string().email({ message: "Email tidak valid" }),
     password: z.string().min(8, { message: "Password minimal 8 karakter" }),
     confirmPassword: z
@@ -63,7 +65,7 @@ export function RegisterForm() {
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     try {
-      const response = await postCreateUser (data);
+      const response = await postCreateUser(data);
 
       if (response.success) {
         toast({
