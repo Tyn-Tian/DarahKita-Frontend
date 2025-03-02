@@ -1,7 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { Settings2 } from "lucide-react";
+import {
+  ChartNoAxesGantt,
+  History,
+  LucideIcon,
+  Syringe,
+  User,
+} from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
@@ -13,43 +19,50 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { getUserRole } from "@/lib/utils";
 
-const data = {
-  navMain: [
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
-  ],
-};
+interface NavItem {
+  title: string;
+  url: string;
+  icon: LucideIcon;
+}
+
+const navMain: NavItem[] = [
+  {
+    title: "Overview",
+    url: "/overview",
+    icon: ChartNoAxesGantt,
+  },
+  {
+    title: "Donor Schedule",
+    url: "/donor-schedule",
+    icon: Syringe,
+  },
+  {
+    title: "History",
+    url: "/history",
+    icon: History,
+  },
+  {
+    title: "Profile",
+    url: "/profile",
+    icon: User,
+  },
+];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const isPmi = getUserRole() === "pmi";
+  const filteredNavMain = isPmi
+    ? navMain.filter((item) => item.title !== "History")
+    : navMain;
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <Brand />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={filteredNavMain} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser />
