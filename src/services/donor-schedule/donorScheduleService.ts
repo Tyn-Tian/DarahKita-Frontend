@@ -122,7 +122,7 @@ export const postCreateDonorSchedule = async (
 
 export const getDonorScheduleParticipants = async (
   id: string,
-  { page, per_page }: DonorScheduleParticipantsParams
+  { page, per_page, status }: DonorScheduleParticipantsParams
 ): Promise<DonorScheduleParticipantsResponse> => {
   try {
     const token = getJWTToken();
@@ -130,7 +130,7 @@ export const getDonorScheduleParticipants = async (
     const response = await axios.get(
       `${API_URL}/donor-schedules/${id}/participants`,
       {
-        params: { page, per_page },
+        params: { page, per_page, status },
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

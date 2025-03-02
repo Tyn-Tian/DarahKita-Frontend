@@ -19,6 +19,7 @@ export type CreateDonorScheduleParams = {
 export type DonorScheduleParticipantsParams = {
   page: number;
   per_page: number;
+  status: string;
 };
 
 export type DonorScheduleData = {

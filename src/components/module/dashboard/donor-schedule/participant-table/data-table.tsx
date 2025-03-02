@@ -26,9 +26,10 @@ import { getDonorScheduleParticipants } from "@/services/donor-schedule/donorSch
 interface DataTableProps {
   columns: ColumnDef<DonorScheduleParticipantData, unknown>[];
   id: string;
+  status: string;
 }
 
-export function DataTable({ columns, id }: DataTableProps) {
+export function DataTable({ columns, id, status }: DataTableProps) {
   const [pageIndex, setPageIndex] = useState(1);
   const pageSize = 5;
   const queryClient = useQueryClient();
@@ -39,6 +40,7 @@ export function DataTable({ columns, id }: DataTableProps) {
       const response = await getDonorScheduleParticipants(id, {
         page: pageIndex,
         per_page: pageSize,
+        status: status
       });
       return response;
     },
@@ -102,7 +104,7 @@ export function DataTable({ columns, id }: DataTableProps) {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  Belum Ada yang Mendaftar.
+                  Data Pendaftar Belum Ada.
                 </TableCell>
               </TableRow>
             )}
