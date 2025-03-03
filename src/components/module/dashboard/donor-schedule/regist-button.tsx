@@ -9,17 +9,28 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface RegistButtonProps {
   onRegist: () => void;
+  isLoading: boolean;
 }
 
-export default function RegistButton({ onRegist }: RegistButtonProps) {
+export default function RegistButton({ onRegist, isLoading }: RegistButtonProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button type="button">Daftar</Button>
+        <Button type="button" disabled={isLoading}>
+          {isLoading ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin mr-2" /> Mendaftar...
+            </>
+          ) : (
+            "Daftar"
+          )}
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -30,8 +41,14 @@ export default function RegistButton({ onRegist }: RegistButtonProps) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={() => onRegist()}>
-            Daftar
+          <AlertDialogAction onClick={onRegist} disabled={isLoading}>
+            {isLoading ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin mr-2" /> Mendaftar...
+              </>
+            ) : (
+              "Daftar"
+            )}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
