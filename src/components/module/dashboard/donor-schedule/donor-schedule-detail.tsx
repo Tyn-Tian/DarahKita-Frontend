@@ -141,171 +141,171 @@ export default function DonorScheduleDetail({ id }: { id: string }) {
     updateDonorScheduleMutation.mutate(data);
 
   if (isLoading) {
-    return <DonorScheduleDetailSkeleton isDonor={isDonor} />
+    return <DonorScheduleDetailSkeleton isDonor={isDonor} />;
   }
 
   return (
     <div>
-        <div className="flex justify-center">
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="mb-5 sm:w-3/5"
-              noValidate
-            >
-              <h2 className="text-base/7 font-semibold text-gray-900">
-                Detail Jadwal Donor Darah
-              </h2>
-              <p className="mt-1 text-sm/6 text-gray-600">
-                Ini adalah informasi detail mengenai jadwal donor darah.
-              </p>
+      <div className="flex justify-center">
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="mb-5 sm:w-3/5"
+            noValidate
+          >
+            <h2 className="text-base/7 font-semibold text-gray-900">
+              Detail Jadwal Donor Darah
+            </h2>
+            <p className="mt-1 text-sm/6 text-gray-600">
+              Ini adalah informasi detail mengenai jadwal donor darah.
+            </p>
 
-              {!isPmi && (
-                <>
-                  {!donorSchedule?.isDonor &&
-                    !donorSchedule?.isScheduleRegistered &&
-                    !donorSchedule?.isRegistered && (
-                      <Alert variant="destructive" className="mt-3 -mb-3">
-                        <AlertCircle className="w-4 h-4" />
-                        <AlertTitle>Pemberitahuan</AlertTitle>
-                        <AlertDescription>
-                          Anda belum bisa melakukan pendaftaran donor darah.
-                          Karena belum 4 bulan semenjak donor darah terakhir. [
-                          {formatDateIntl(donorSchedule?.lastDonation ?? "")}]
-                        </AlertDescription>
-                      </Alert>
-                    )}
+            {!isPmi && (
+              <>
+                {!donorSchedule?.isDonor &&
+                  !donorSchedule?.isScheduleRegistered &&
+                  !donorSchedule?.isRegistered && (
+                    <Alert variant="destructive" className="mt-3 -mb-3">
+                      <AlertCircle className="w-4 h-4" />
+                      <AlertTitle>Pemberitahuan</AlertTitle>
+                      <AlertDescription>
+                        Anda belum bisa melakukan pendaftaran donor darah.
+                        Karena belum 4 bulan semenjak donor darah terakhir. [
+                        {formatDateIntl(donorSchedule?.lastDonation ?? "")}]
+                      </AlertDescription>
+                    </Alert>
+                  )}
 
-                  {donorSchedule?.isScheduleRegistered && (
+                {donorSchedule?.isScheduleRegistered && (
+                  <Alert className="mt-3 -mb-3">
+                    <Syringe className="w-4 h-4" />
+                    <AlertTitle>Pemberitahuan</AlertTitle>
+                    <AlertDescription>
+                      Anda sudah melakukan pendaftaran pada jadwal donor darah
+                      ini.
+                    </AlertDescription>
+                  </Alert>
+                )}
+
+                {donorSchedule?.isRegistered &&
+                  !donorSchedule?.isScheduleRegistered && (
                     <Alert className="mt-3 -mb-3">
                       <Syringe className="w-4 h-4" />
                       <AlertTitle>Pemberitahuan</AlertTitle>
                       <AlertDescription>
                         Anda sudah melakukan pendaftaran pada jadwal donor darah
-                        ini.
+                        lain.
                       </AlertDescription>
                     </Alert>
                   )}
+              </>
+            )}
 
-                  {donorSchedule?.isRegistered &&
-                    !donorSchedule?.isScheduleRegistered && (
-                      <Alert className="mt-3 -mb-3">
-                        <Syringe className="w-4 h-4" />
-                        <AlertTitle>Pemberitahuan</AlertTitle>
-                        <AlertDescription>
-                          Anda sudah melakukan pendaftaran pada jadwal donor
-                          darah lain.
-                        </AlertDescription>
-                      </Alert>
-                    )}
-                </>
+            <FormField
+              control={form.control}
+              name="date"
+              render={({ field }) => (
+                <FormItem className="mt-6">
+                  <FormLabel>Tanggal Pelaksanaan</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="text-sm sm:text-base sm:w-min"
+                      type="date"
+                      readOnly={!isPmi}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
               )}
+            />
 
-              <FormField
-                control={form.control}
-                name="date"
-                render={({ field }) => (
-                  <FormItem className="mt-6">
-                    <FormLabel>Tanggal Pelaksanaan</FormLabel>
-                    <FormControl>
-                      <Input
-                        className="text-sm sm:text-base sm:w-min"
-                        type="date"
-                        readOnly={!isPmi}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <FormField
+              control={form.control}
+              name="location"
+              render={({ field }) => (
+                <FormItem className="mt-6">
+                  <FormLabel>Lokasi</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      className="text-sm sm:text-base sm:w-4/5"
+                      readOnly={!isPmi}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-              <FormField
-                control={form.control}
-                name="location"
-                render={({ field }) => (
-                  <FormItem className="mt-6">
-                    <FormLabel>Lokasi</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        className="text-sm sm:text-base sm:w-4/5"
-                        readOnly={!isPmi}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <FormField
+              control={form.control}
+              name="time"
+              render={({ field }) => (
+                <FormItem className="mt-6">
+                  <FormLabel>Jam Pelaksanaan</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="text-sm sm:text-base sm:w-min"
+                      type="time"
+                      readOnly={!isPmi}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-              <FormField
-                control={form.control}
-                name="time"
-                render={({ field }) => (
-                  <FormItem className="mt-6">
-                    <FormLabel>Jam Pelaksanaan</FormLabel>
-                    <FormControl>
-                      <Input
-                        className="text-sm sm:text-base sm:w-min"
-                        type="time"
-                        readOnly={!isPmi}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            {!isPmi && (
+              <>
+                <div className="mt-6">
+                  <Label htmlFor="pmi_center">PMI Pelaksana</Label>
+                  <Input
+                    className="text-sm sm:text-base sm:w-1/2 mt-2"
+                    id="pmi_center"
+                    type="text"
+                    value={donorSchedule ? donorSchedule.name : ""}
+                    readOnly
+                  />
+                </div>
 
+                <div className="mt-6">
+                  <Label htmlFor="contact">Kontak Pelaksana</Label>
+                  <Input
+                    className="text-sm sm:text-base sm:w-min mt-2"
+                    id="contact"
+                    type="text"
+                    value={donorSchedule ? donorSchedule.contact : ""}
+                    readOnly
+                  />
+                </div>
+              </>
+            )}
+
+            <Separator className="mt-10 mb-5" />
+
+            <div className="flex gap-3 justify-end">
+              <Button type="button" variant="destructive" asChild>
+                <Link href="/donor-schedule">Kembali</Link>
+              </Button>
               {!isPmi && (
                 <>
-                  <div className="mt-6">
-                    <Label htmlFor="pmi_center">PMI Pelaksana</Label>
-                    <Input
-                      className="text-sm sm:text-base sm:w-1/2 mt-2"
-                      id="pmi_center"
-                      type="text"
-                      value={donorSchedule ? donorSchedule.name : ""}
-                      readOnly
-                    />
-                  </div>
-
-                  <div className="mt-6">
-                    <Label htmlFor="contact">Kontak Pelaksana</Label>
-                    <Input
-                      className="text-sm sm:text-base sm:w-min mt-2"
-                      id="contact"
-                      type="text"
-                      value={donorSchedule ? donorSchedule.contact : ""}
-                      readOnly
-                    />
-                  </div>
+                  {donorSchedule?.isDonor && (
+                    <RegistButton onRegist={onRegist} />
+                  )}
                 </>
               )}
-
-              <Separator className="mt-10 mb-5" />
-
-              <div className="flex gap-3 justify-end">
-                <Button type="button" variant="destructive" asChild>
-                  <Link href="/donor-schedule">Kembali</Link>
-                </Button>
-                {!isPmi && (
-                  <>
-                    {donorSchedule?.isDonor && (
-                      <RegistButton onRegist={onRegist} />
-                    )}
-                  </>
-                )}
-                {isPmi && (
-                  <SubmitButton
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    isLoading={updateDonorScheduleMutation.isPending}
-                  />
-                )}
-              </div>
-            </form>
-          </Form>
-        </div>
+              {isPmi && (
+                <SubmitButton
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  isLoading={updateDonorScheduleMutation.isPending}
+                />
+              )}
+            </div>
+          </form>
+        </Form>
+      </div>
     </div>
   );
 }
