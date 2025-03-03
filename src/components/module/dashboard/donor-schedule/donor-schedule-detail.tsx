@@ -2,6 +2,7 @@
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
@@ -292,7 +293,7 @@ export default function DonorScheduleDetail({ id }: { id: string }) {
               {!isPmi && (
                 <>
                   {donorSchedule?.isDonor && (
-                    <RegistButton onRegist={onRegist} />
+                    <RegistButton onRegist={onRegist} isLoading={registDonorScheduleMutation.isPending} />
                   )}
                 </>
               )}
