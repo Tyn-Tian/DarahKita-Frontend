@@ -34,6 +34,20 @@ export type UpdateStatusParticipantParams = {
   worthy?: boolean;
 };
 
+export type AddParticipantParams = {
+  email: string;
+  name: string;
+  blood: string;
+  rhesus: string;
+  systolic: string;
+  diastolic: string;
+  pulse: string;
+  weight: string;
+  temperatur: string;
+  hemoglobin: string;
+  worthy?: boolean;
+};
+
 export type DonorScheduleData = {
   id: string;
   date: string;

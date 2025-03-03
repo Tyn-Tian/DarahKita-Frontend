@@ -3,6 +3,8 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { columns } from "./participant-table/columns";
 import { DataTable } from "./participant-table/data-table";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const statusOptions = [
   { value: "semua" },
@@ -19,7 +21,7 @@ export default function ParticipantTable({ id }: { id: string }) {
       </h2>
 
       <Tabs defaultValue="semua">
-        <div className="w-full flex mb-4 justify-end">
+        <div className="w-full flex flex-col md:flex-row gap-3 mb-4 justify-between">
           <TabsList className="w-full lg:w-auto">
             {statusOptions.map((n) => (
               <TabsTrigger
@@ -31,6 +33,12 @@ export default function ParticipantTable({ id }: { id: string }) {
               </TabsTrigger>
             ))}
           </TabsList>
+
+          <Button asChild>
+            <Link href={`/donor-schedule/${id}/participant/add-participant`}>
+              Tambah Peserta
+            </Link>
+          </Button>
         </div>
 
         {statusOptions.map((n) => (
