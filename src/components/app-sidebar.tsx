@@ -2,10 +2,10 @@
 
 import * as React from "react";
 import {
+  Calendar1,
   ChartNoAxesGantt,
   History,
   LucideIcon,
-  Syringe,
   User,
 } from "lucide-react";
 
@@ -36,7 +36,7 @@ const navMain: NavItem[] = [
   {
     title: "Donor Schedule",
     url: "/donor-schedule",
-    icon: Syringe,
+    icon: Calendar1,
   },
   {
     title: "History",
