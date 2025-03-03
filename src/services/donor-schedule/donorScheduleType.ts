@@ -16,10 +16,22 @@ export type CreateDonorScheduleParams = {
   time: string;
 };
 
-export type DonorScheduleParticipantsParams = {
+export type ParticipantsParams = {
   page: number;
   per_page: number;
   status: string;
+};
+
+export type UpdateStatusParticipantParams = {
+  blood: string;
+  rhesus: string;
+  systolic: string;
+  diastolic: string;
+  pulse: string;
+  weight: string;
+  temperatur: string;
+  hemoglobin: string;
+  worthy?: boolean;
 };
 
 export type DonorScheduleData = {
@@ -44,7 +56,7 @@ export type DonorScheduleDetailData = {
   isRegistered: boolean;
 };
 
-export type DonorScheduleParticipantData = {
+export type ParticipantData = {
   id: string;
   name: string;
   status: string;
@@ -52,6 +64,22 @@ export type DonorScheduleParticipantData = {
   blood: string;
   rhesus: string;
   last_donation: string;
+};
+
+export type ParticipantDetailData = {
+  id: string;
+  name: string;
+  status: string;
+  contact: string;
+  blood: string;
+  rhesus: string;
+  last_donation: string;
+  systolic: string;
+  diastolic: string;
+  pulse: string;
+  weight: string;
+  temperatur: string;
+  hemoglobin: string;
 };
 
 type PaginationData = {
@@ -79,9 +107,15 @@ export interface RegisterDonorScheduleResponse {
   message: string;
 }
 
-export interface DonorScheduleParticipantsResponse {
+export interface ParticipantsResponse {
   success: boolean;
   message: string;
-  data: DonorScheduleParticipantData[];
+  data: ParticipantData[];
   pagination: PaginationData;
+}
+
+export interface ParticipantDetailResponse {
+  success: boolean;
+  message: string;
+  data: ParticipantDetailData;
 }

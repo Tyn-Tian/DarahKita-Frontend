@@ -10,14 +10,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { formatDateIntl } from "@/lib/utils";
 
-import { DonorScheduleParticipantData } from "@/services/donor-schedule/donorScheduleType";
+import { ParticipantData } from "@/services/donor-schedule/donorScheduleType";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import Link from "next/link";
 
-export const columns = (
-  id: string
-): ColumnDef<DonorScheduleParticipantData>[] => [
+export const columns = (id: string): ColumnDef<ParticipantData>[] => [
   {
     accessorKey: "status",
     header: "Status",

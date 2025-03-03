@@ -1,4 +1,4 @@
-import ParticipantTable from "@/components/module/dashboard/donor-schedule/participant-table";
+import ParticipantDetail from "@/components/module/dashboard/donor-schedule/participant-detail";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -13,9 +13,10 @@ import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 export default async function Page({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; donorId: string }>;
 }) {
   const id = (await params).id;
+  const donorId = (await params).donorId;
 
   return (
     <>
@@ -30,21 +31,29 @@ export default async function Page({
                   <BreadcrumbLink href="/overview">Home</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
+                <BreadcrumbItem className="hidden md:block">
                   <BreadcrumbLink href="/donor-schedule">
                     Donor Schedule
                   </BreadcrumbLink>
                 </BreadcrumbItem>
-                <BreadcrumbSeparator />
+                <BreadcrumbSeparator className="hidden md:block" />
+                <BreadcrumbItem className="hidden md:block">
+                  <BreadcrumbLink href={`/donor-schedule/${id}/participant`}>
+                    Donor Schedule Participant
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>Donor Schedule Participant</BreadcrumbPage>
+                  <BreadcrumbPage>
+                    Donor Schedule Participant Detail
+                  </BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
           </div>
         </header>
         <div className="p-4 pt-0">
-          <ParticipantTable id={id} />
+          <ParticipantDetail id={id} donorId={donorId} />
         </div>
       </SidebarInset>
     </>

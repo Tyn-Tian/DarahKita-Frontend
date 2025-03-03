@@ -3,12 +3,14 @@ import axios from "axios";
 import {
   CreateDonorScheduleParams,
   DonorScheduleDetailResponse,
-  DonorScheduleParticipantsParams,
-  DonorScheduleParticipantsResponse,
   DonorSchedulesParams,
   DonorSchedulesResponse,
+  ParticipantDetailResponse,
+  ParticipantsParams,
+  ParticipantsResponse,
   RegisterDonorScheduleResponse,
   UpdateDonorScheduleParams,
+  UpdateStatusParticipantParams,
 } from "./donorScheduleType";
 
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
@@ -120,10 +122,10 @@ export const postCreateDonorSchedule = async (
   }
 };
 
-export const getDonorScheduleParticipants = async (
+export const getParticipants = async (
   id: string,
-  { page, per_page, status }: DonorScheduleParticipantsParams
-): Promise<DonorScheduleParticipantsResponse> => {
+  { page, per_page, status }: ParticipantsParams
+): Promise<ParticipantsResponse> => {
   try {
     const token = getJWTToken();
 
@@ -131,6 +133,54 @@ export const getDonorScheduleParticipants = async (
       `${API_URL}/donor-schedules/${id}/participants`,
       {
         params: { page, per_page, status },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw new Error(`Failed to fetch: ${error}`);
+  }
+};
+
+export const getParticipantDetail = async (
+  id: string,
+  donorId: string
+): Promise<ParticipantDetailResponse> => {
+  try {
+    const token = getJWTToken();
+
+    const response = await axios.get(
+      `${API_URL}/donor-schedules/${id}/participants/${donorId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw new Error(`Failed to fetch: ${error}`);
+  }
+};
+
+export const postUpdateStatusParticipant = async (
+  id: string,
+  donorId: string,
+  data: UpdateStatusParticipantParams
+): Promise<{ success: boolean; message: string }> => {
+  try {
+    const token = getJWTToken();
+
+    const response = await axios.post(
+      `${API_URL}/donor-schedules/${id}/participants/${donorId}`,
+      data,
+      {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

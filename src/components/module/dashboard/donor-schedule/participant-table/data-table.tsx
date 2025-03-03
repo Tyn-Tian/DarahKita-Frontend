@@ -20,11 +20,11 @@ import { Button } from "@/components/ui/button";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import TableSkeleton from "@/components/table-skeleton";
-import { DonorScheduleParticipantData } from "@/services/donor-schedule/donorScheduleType";
-import { getDonorScheduleParticipants } from "@/services/donor-schedule/donorScheduleService";
+import { ParticipantData } from "@/services/donor-schedule/donorScheduleType";
+import { getParticipants } from "@/services/donor-schedule/donorScheduleService";
 
 interface DataTableProps {
-  columns: ColumnDef<DonorScheduleParticipantData, unknown>[];
+  columns: ColumnDef<ParticipantData, unknown>[];
   id: string;
   status: string;
 }
@@ -37,10 +37,10 @@ export function DataTable({ columns, id, status }: DataTableProps) {
   const { data, isLoading } = useQuery({
     queryKey: ["participants", pageIndex],
     queryFn: async () => {
-      const response = await getDonorScheduleParticipants(id, {
+      const response = await getParticipants(id, {
         page: pageIndex,
         per_page: pageSize,
-        status: status
+        status: status,
       });
       return response;
     },
@@ -48,7 +48,7 @@ export function DataTable({ columns, id, status }: DataTableProps) {
     placeholderData: (previousData) => previousData,
   });
 
-  const table = useReactTable<DonorScheduleParticipantData>({
+  const table = useReactTable<ParticipantData>({
     data: data?.data || [],
     columns,
     getCoreRowModel: getCoreRowModel(),
