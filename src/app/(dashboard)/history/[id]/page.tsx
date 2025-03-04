@@ -31,11 +31,11 @@ export default async function Page({
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="/donation">Donation</BreadcrumbLink>
+                  <BreadcrumbLink href="/history">History</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>Donor Detail</BreadcrumbPage>
+                  <BreadcrumbPage>History Detail</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>

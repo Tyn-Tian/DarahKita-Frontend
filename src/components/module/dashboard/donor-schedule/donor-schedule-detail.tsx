@@ -291,7 +291,7 @@ export default function DonorScheduleDetail({ id }: { id: string }) {
               </Button>
               {!isPmi && (
                 <>
-                  {donorSchedule?.isDonor && (
+                  {!donorSchedule?.isDonor && (
                     <RegistButton
                       onRegist={onRegist}
                       isLoading={registDonorScheduleMutation.isPending}

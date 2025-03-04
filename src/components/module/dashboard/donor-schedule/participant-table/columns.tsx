@@ -33,6 +33,9 @@ export const columns = (id: string): ColumnDef<ParticipantData>[] => [
     header: "Donasi Terakhir",
     cell: ({ row }) => {
       const formatedValue = formatDateIntl(row.getValue("last_donation"));
+      if (formatedValue === "Invalid Date") {
+        return <p>-</p>;
+      }
       return <p>{formatedValue}</p>;
     },
   },
