@@ -90,15 +90,15 @@ export default function DonorForm() {
     },
     onSuccess: () => {
       toast({
-        title: "Tambah Peserta Donor Darah Berhasil",
-        description: "Anda berhasil tambah peserta donor darah",
+        title: "Tambah Donor Darah Berhasil",
+        description: "Anda berhasil tambah donor darah",
       });
       router.push(`/history`);
     },
     onError: (error) => {
       toast({
         title: "Gagal",
-        description: 
+        description:
           error.message || "Terjadi kesalahan saat menambahkan data pendonor",
         variant: "destructive",
       });
