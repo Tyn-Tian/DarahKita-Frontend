@@ -6,6 +6,7 @@ import {
   ChartNoAxesGantt,
   History,
   LucideIcon,
+  Syringe,
   User,
 } from "lucide-react";
 
@@ -44,6 +45,11 @@ const navMain: NavItem[] = [
     icon: History,
   },
   {
+    title: "Donor",
+    url: "/donor",
+    icon: Syringe,
+  },
+  {
     title: "Profile",
     url: "/profile",
     icon: User,
@@ -52,9 +58,10 @@ const navMain: NavItem[] = [
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const isPmi = getUserRole() === "pmi";
-  const filteredNavMain = isPmi
-    ? navMain.filter((item) => item.title !== "History")
-    : navMain;
+  const filteredNavMain = navMain.filter((item) => {
+    if (item.url === "/donor" && !isPmi) return false;
+    return true;
+  });
 
   return (
     <Sidebar collapsible="icon" {...props}>

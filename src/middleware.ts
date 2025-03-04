@@ -40,10 +40,10 @@ export async function middleware(request: NextRequest) {
 
     const restrictedPaths: Record<string, ((path: string) => boolean)[]> = {
       donor: [
+        (path: string) => path === "/donor",
         (path: string) => path.startsWith("/donor-schedule/create-schedule"),
         (path: string) => /^\/donor-schedule\/[^/]+\/participant$/.test(path),
       ],
-      pmi: [(path: string) => path.startsWith("/history")],
     };
 
     const isRestricted = (restrictedPaths[role] || []).some((checkPath) =>
@@ -75,5 +75,6 @@ export const config = {
     "/donor-schedule/:path*",
     "/history",
     "/history/:path",
+    "/donor"
   ],
 };
