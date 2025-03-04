@@ -9,7 +9,8 @@ export type HistoryData = {
   date: string;
   location: string;
   status: "pending" | "success" | "failed";
-  pmi: string;
+  name: string;
+  contact: string;
 };
 
 export type HistoryDetailData = {

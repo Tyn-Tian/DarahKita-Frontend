@@ -1,6 +1,6 @@
 "use client";
 
-import { formatDateIntl, formatTime } from "@/lib/utils";
+import { formatDateIntl, formatTime, getUserRole } from "@/lib/utils";
 import { HistoryData } from "@/services/history/historyType";
 import { ColumnDef } from "@tanstack/react-table";
 
@@ -45,8 +45,8 @@ export const columns: ColumnDef<HistoryData>[] = [
     },
   },
   {
-    accessorKey: "pmi",
-    header: "PMI Center",
+    accessorKey: "name",
+    header: getUserRole() === 'pmi' ? "Pendonor" : "PMI Center",
   },
   {
     accessorKey: "contact",

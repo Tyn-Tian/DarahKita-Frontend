@@ -18,7 +18,7 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useState } from "react";
+import React, { useState } from "react";
 import TableSkeleton from "@/components/table-skeleton";
 import { getHistories } from "@/services/history/historyService";
 
