@@ -25,7 +25,19 @@ import { z } from "zod";
 const FormSchema = z.object({
   date: z
     .string()
-    .nonempty({ message: "Tanggal pelaksanaan tidak boleh kosong" }),
+    .nonempty({ message: "Tanggal pelaksanaan tidak boleh kosong" })
+    .refine(
+      (value) => {
+        const today = new Date();
+        const selectedDate = new Date(value);
+
+        today.setHours(0, 0, 0, 0);
+        selectedDate.setHours(0, 0, 0, 0);
+
+        return selectedDate > today;
+      },
+      { message: "Tanggal harus minimal H+1 (besok)" }
+    ),
   location: z
     .string()
     .nonempty({ message: "Lokasi tidak boleh kosong" })
@@ -33,7 +45,10 @@ const FormSchema = z.object({
     .max(100, { message: "Alamat tidak boleh lebih dari 100 karakter" }),
   time: z
     .string()
-    .nonempty({ message: "Waktu pelaksanaan tidak boleh kosong" }),
+    .nonempty({ message: "Waktu pelaksanaan tidak boleh kosong" })
+    .regex(/^([01]\d|2[0-3]):([0-5]\d)$/, {
+      message: "Format waktu harus HH:mm (24 jam)",
+    }),
 });
 
 export default function DonorScheduleForm() {
@@ -95,7 +110,7 @@ export default function DonorScheduleForm() {
                 <FormLabel>Tanggal Pelaksanaan</FormLabel>
                 <FormControl>
                   <Input
-                    className="text-sm sm:text-base sm:w-min"
+                    className="text-sm sm:text-base sm:w-1/4"
                     type="date"
                     {...field}
                   />

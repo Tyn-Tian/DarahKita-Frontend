@@ -35,7 +35,19 @@ import SubmitButton from "@/components/submit-button";
 const FormSchema = z.object({
   date: z
     .string()
-    .nonempty({ message: "Tanggal pelaksanaan tidak boleh kosong" }),
+    .nonempty({ message: "Tanggal pelaksanaan tidak boleh kosong" })
+    .refine(
+      (value) => {
+        const today = new Date();
+        const selectedDate = new Date(value);
+
+        today.setHours(0, 0, 0, 0);
+        selectedDate.setHours(0, 0, 0, 0);
+
+        return selectedDate > today;
+      },
+      { message: "Tanggal harus minimal H+1 (besok)" }
+    ),
   location: z
     .string()
     .nonempty({ message: "Lokasi tidak boleh kosong" })
@@ -209,7 +221,7 @@ export default function DonorScheduleDetail({ id }: { id: string }) {
                   <FormLabel>Tanggal Pelaksanaan</FormLabel>
                   <FormControl>
                     <Input
-                      className="text-sm sm:text-base sm:w-min"
+                      className="text-sm sm:text-base sm:w-1/4"
                       type="date"
                       readOnly={!isPmi}
                       {...field}
@@ -291,7 +303,7 @@ export default function DonorScheduleDetail({ id }: { id: string }) {
               </Button>
               {!isPmi && (
                 <>
-                  {!donorSchedule?.isDonor && (
+                  {donorSchedule?.isDonor && (
                     <RegistButton
                       onRegist={onRegist}
                       isLoading={registDonorScheduleMutation.isPending}

@@ -40,14 +40,28 @@ const FormSchema = z.object({
   rhesus: z.string().nonempty({ message: "Pilih rhesus" }),
   systolic: z
     .string()
-    .nonempty({ message: "Tekanan darah systolic tidak boleh kosong" }),
+    .nonempty({ message: "Tekanan darah systolic tidak boleh kosong" })
+    .refine((val) => !isNaN(Number(val)), { message: "Harus berupa angka" }),
   diastolic: z
     .string()
-    .nonempty({ message: "Tekanan darah diastolic tidak boleh kosong" }),
-  pulse: z.string().nonempty({ message: "Detak jantung tidak boleh kosong" }),
-  weight: z.string().nonempty({ message: "Berat badan tidak boleh kosong" }),
-  temperatur: z.string().nonempty({ message: "Temperatur tidak boleh kosong" }),
-  hemoglobin: z.string().nonempty({ message: "Hemoglobin tidak boleh kosong" }),
+    .nonempty({ message: "Tekanan darah diastolic tidak boleh kosong" })
+    .refine((val) => !isNaN(Number(val)), { message: "Harus berupa angka" }),
+  pulse: z
+    .string()
+    .nonempty({ message: "Detak jantung tidak boleh kosong" })
+    .refine((val) => !isNaN(Number(val)), { message: "Harus berupa angka" }),
+  weight: z
+    .string()
+    .nonempty({ message: "Berat badan tidak boleh kosong" })
+    .refine((val) => !isNaN(Number(val)), { message: "Harus berupa angka" }),
+  temperatur: z
+    .string()
+    .nonempty({ message: "Temperatur tidak boleh kosong" })
+    .refine((val) => !isNaN(Number(val)), { message: "Harus berupa angka" }),
+  hemoglobin: z
+    .string()
+    .nonempty({ message: "Hemoglobin tidak boleh kosong" })
+    .refine((val) => !isNaN(Number(val)), { message: "Harus berupa angka" }),
   worthy: z.boolean().default(false).optional(),
 });
 
@@ -77,15 +91,16 @@ export default function AddParticipantForm({ id }: { id: string }) {
     },
     onSuccess: () => {
       toast({
-        title: "Tambah Peserta Donor Darah Berhasil",
-        description: "Anda berhasil tambah peserta donor darah",
+        title: "Berhasil",
+        description: "Peserta donor darah berhasil ditambahkan.",
       });
       router.push(`/donor-schedule/${id}/participant`);
     },
-    onError: () => {
+    onError: (error) => {
       toast({
         title: "Gagal",
-        description: "Terjadi kesalahan saat menambahkan peserta",
+        description:
+          error.message || "Terjadi kesalahan saat menambahkan peserta",
         variant: "destructive",
       });
     },
@@ -115,10 +130,7 @@ export default function AddParticipantForm({ id }: { id: string }) {
               <FormItem className="mt-6 sm:w-1/2">
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input
-                    className="text-sm sm:text-base"
-                    {...field}
-                  />
+                  <Input className="text-sm sm:text-base" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
