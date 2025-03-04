@@ -19,6 +19,11 @@ export const postAddDonor = async (
 
     return response.data;
   } catch (error) {
-    throw new Error(`Failed to fetch: ${error}`);
+    if (axios.isAxiosError(error) && error.response) {
+      if (error.response.status === 400) {
+        throw new Error(error.response.data.message || "Bad Request");
+      }
+    }
+    throw new Error("Terjadi kesalahan pada server.");
   }
 };
