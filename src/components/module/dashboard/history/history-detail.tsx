@@ -105,6 +105,116 @@ export default function HistoryDetail({ id }: { id: string }) {
               />
             </div>
 
+            {data?.status !== "pending" && (
+              <>
+                <Separator className="my-10" />
+
+                <h2 className="text-base/7 font-semibold text-gray-900">
+                  Pemeriksaan Fisik
+                </h2>
+                <p className="mt-1 text-sm/6 text-gray-600">
+                  Ini adalah informasi dari pemeriksaan fisik anda saat
+                  melakukan donor darah.
+                </p>
+
+                <div className="flex gap-3 sm:w-3/5 mt-6">
+                  <div className="w-3/5">
+                    <Label htmlFor="blood">Golongan Darah</Label>
+                    <Input
+                      className="text-sm sm:text-base mt-2"
+                      id="blood"
+                      type="text"
+                      value={data ? data.blood.toUpperCase() : ""}
+                      readOnly
+                    />
+                  </div>
+                  <div className="w-2/5">
+                    <Label htmlFor="rhesus">Rhesus</Label>
+                    <Input
+                      className="text-sm sm:text-base mt-2"
+                      id="rhesus"
+                      type="text"
+                      value={data ? `Rh${data.rhesus}` : ""}
+                      readOnly
+                    />
+                  </div>
+                </div>
+
+                <div className="flex gap-3 mt-6">
+                  <div className="sm:w-2/5">
+                    <Label htmlFor="systolic">
+                      Tekanan Darah Sistolic (mmHg)
+                    </Label>
+                    <Input
+                      className="text-sm sm:text-base"
+                      id="systolic"
+                      type="text"
+                      value={data ? data.systolic : ""}
+                      readOnly
+                    />
+                  </div>
+                  <div className="sm:w-2/5">
+                    <Label htmlFor="diastolic">
+                      Tekanan Darah Diastolic (mmHg)
+                    </Label>
+                    <Input
+                      className="text-sm sm:text-base"
+                      id="diastolic"
+                      type="text"
+                      value={data ? data.diastolic : ""}
+                      readOnly
+                    />
+                  </div>
+                </div>
+
+                <div className="flex gap-3 mt-6">
+                  <div className="sm:w-1/3">
+                    <Label htmlFor="pulse">Denyut Nadi (bpm)</Label>
+                    <Input
+                      className="text-sm sm:text-base"
+                      id="pulse"
+                      type="text"
+                      value={data ? data.pulse : ""}
+                      readOnly
+                    />
+                  </div>
+                  <div className="sm:w-1/4">
+                    <Label htmlFor="weight">Berat Badan (kg)</Label>
+                    <Input
+                      className="text-sm sm:text-base"
+                      id="weight"
+                      type="text"
+                      value={data ? data.weight : ""}
+                      readOnly
+                    />
+                  </div>
+                </div>
+
+                <div className="flex gap-3 mt-6">
+                  <div className="sm:w-1/5">
+                    <Label htmlFor="temperatur">Suhu Tubuh</Label>
+                    <Input
+                      className="text-sm sm:text-base"
+                      id="temperatur"
+                      type="text"
+                      value={data ? data.temperatur : ""}
+                      readOnly
+                    />
+                  </div>
+                  <div className="sm:w-1/4">
+                    <Label htmlFor="hemoglobin">Kadar Hemoglobin (g/dl)</Label>
+                    <Input
+                      className="text-sm sm:text-base"
+                      id="hemoglobin"
+                      type="text"
+                      value={data ? data.hemoglobin : ""}
+                      readOnly
+                    />
+                  </div>
+                </div>
+              </>
+            )}
+
             <Separator className="mt-10 mb-5" />
 
             <div className="flex justify-end">

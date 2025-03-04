@@ -20,6 +20,14 @@ export type HistoryDetailData = {
   status: "pending" | "success" | "failed";
   pmi: string;
   contact: string;
+  blood: string;
+  rhesus: string;
+  systolic: string;
+  diastolic: string;
+  pulse: string;
+  weight: string;
+  temperatur: string;
+  hemoglobin: string;
 };
 
 type PaginationData = {
