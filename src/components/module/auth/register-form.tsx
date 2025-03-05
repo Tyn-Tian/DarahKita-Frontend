@@ -37,7 +37,12 @@ const FormSchema = z
         message: "Nama hanya boleh berisi huruf dan spasi",
       }),
     email: z.string().email({ message: "Email tidak valid" }),
-    password: z.string().min(8, { message: "Password minimal 8 karakter" }),
+    password: z
+      .string()
+      .min(8, { message: "Password minimal 8 karakter" })
+      .regex(/[A-Z]/, { message: "Password harus mengandung huruf besar" })
+      .regex(/[a-z]/, { message: "Password harus mengandung huruf kecil" })
+      .regex(/\d/, { message: "Password harus mengandung angka" }),
     confirmPassword: z
       .string()
       .min(8, { message: "Konfirmasi password minimal 8 karakter" }),
