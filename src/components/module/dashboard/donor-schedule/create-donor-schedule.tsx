@@ -37,18 +37,33 @@ const FormSchema = z.object({
         return selectedDate > today;
       },
       { message: "Tanggal harus minimal H+1 (besok)" }
-    ),
+    )
+    .refine((value) => {
+      const today = new Date();
+      const selectedDate = new Date(value);
+      const maxDate = new Date();
+      maxDate.setMonth(today.getMonth() + 3);
+  
+      return selectedDate <= maxDate;
+    }, { message: "Tanggal hanya bisa dipilih maksimal 3 bulan ke depan" }),
   location: z
     .string()
     .nonempty({ message: "Lokasi tidak boleh kosong" })
     .min(10, { message: "Alamat harus terdiri dari minimal 10 karakter" })
-    .max(100, { message: "Alamat tidak boleh lebih dari 100 karakter" }),
+    .max(100, { message: "Alamat tidak boleh lebih dari 100 karakter" })
+    .regex(/^[a-zA-Z0-9\s,.-]+$/, {
+      message: "Lokasi hanya boleh mengandung huruf, angka, spasi, koma, titik, dan tanda hubung",
+    }),
   time: z
     .string()
     .nonempty({ message: "Waktu pelaksanaan tidak boleh kosong" })
     .regex(/^([01]\d|2[0-3]):([0-5]\d)$/, {
       message: "Format waktu harus HH:mm (24 jam)",
-    }),
+    })
+    .refine((value) => {
+      const [hours, minutes] = value.split(":").map(Number);
+      return hours >= 8 && hours <= 17;
+    }, { message: "Waktu harus antara 08:00 dan 17:00" }),
 });
 
 export default function DonorScheduleForm() {
