@@ -8,6 +8,7 @@ import {
   LucideIcon,
   Syringe,
   User,
+  Users,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -50,6 +51,11 @@ const navMain: NavItem[] = [
     icon: Syringe,
   },
   {
+    title: "Donor",
+    url: "/donor",
+    icon: Users,
+  },
+  {
     title: "Profile",
     url: "/profile",
     icon: User,
@@ -60,6 +66,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const isPmi = getUserRole() === "pmi";
   const filteredNavMain = navMain.filter((item) => {
     if (item.url === "/donation" && !isPmi) return false;
+    if (item.url === "/donor" && !isPmi) return false;
     return true;
   });
 
