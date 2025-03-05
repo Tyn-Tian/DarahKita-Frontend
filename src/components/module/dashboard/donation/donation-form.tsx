@@ -27,7 +27,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import CancelButton from "../profile/cancel-button";
-import { postAddDonor } from "@/services/donor/donorService";
+import { postAddDonation } from "@/services/donation/donationService";
 
 const FormSchema = z.object({
   email: z
@@ -64,7 +64,7 @@ const FormSchema = z.object({
   worthy: z.boolean().default(false).optional(),
 });
 
-export default function DonorForm() {
+export default function DonationForm() {
   const { toast } = useToast();
   const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -86,7 +86,7 @@ export default function DonorForm() {
 
   const addDonorMutation = useMutation({
     mutationFn: async (data: z.infer<typeof FormSchema>) => {
-      await postAddDonor(data);
+      await postAddDonation(data);
     },
     onSuccess: () => {
       toast({

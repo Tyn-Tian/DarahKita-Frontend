@@ -156,8 +156,7 @@ export function ProfileForm() {
         >
           <h2 className="text-base/7 font-semibold text-gray-900">Profile</h2>
           <p className="mt-1 text-sm/6 text-gray-600">
-            This information will be displayed publicly so be careful what you
-            share.
+            Ini adalah informasi yang akan di tampilkan secara publik.
           </p>
 
           <FormField
@@ -239,10 +238,10 @@ export function ProfileForm() {
           <Separator className="my-10" />
 
           <h2 className="text-base/7 font-semibold text-gray-900">
-            Personal Information
+            Informasi Personal
           </h2>
           <p className="mt-1 text-sm/6 text-gray-600">
-            Use a permanent address where you can receive mail.
+            Ini adalah informasi yang hanya bisa diakses oleh PMI.
           </p>
 
           <FormField

@@ -1,16 +1,16 @@
 import { getJWTToken } from "@/lib/utils";
-import { AddDonorParams } from "./donorType";
 import axios from "axios";
+import { AddDonationParams } from "./donationType";
 
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
 
-export const postAddDonor = async (
-  data: AddDonorParams
+export const postAddDonation = async (
+  data: AddDonationParams
 ): Promise<{ success: boolean; message: string }> => {
   try {
     const token = getJWTToken();
 
-    const response = await axios.post(`${API_URL}/donors`, data, {
+    const response = await axios.post(`${API_URL}/donations`, data, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

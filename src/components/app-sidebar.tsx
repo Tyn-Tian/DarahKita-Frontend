@@ -45,8 +45,8 @@ const navMain: NavItem[] = [
     icon: History,
   },
   {
-    title: "Donor",
-    url: "/donor",
+    title: "Donation",
+    url: "/donation",
     icon: Syringe,
   },
   {
@@ -59,7 +59,7 @@ const navMain: NavItem[] = [
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const isPmi = getUserRole() === "pmi";
   const filteredNavMain = navMain.filter((item) => {
-    if (item.url === "/donor" && !isPmi) return false;
+    if (item.url === "/donation" && !isPmi) return false;
     return true;
   });
 

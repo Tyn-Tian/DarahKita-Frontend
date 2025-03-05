@@ -1,4 +1,4 @@
-import DonorForm from "@/components/module/dashboard/donor/donor-form";
+import DonationForm from "@/components/module/dashboard/donation/donation-form";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -32,7 +32,7 @@ export default function Page() {
           </div>
         </header>
         <div className="p-4 pt-0">
-          <DonorForm />
+          <DonationForm />
         </div>
       </SidebarInset>
     </>

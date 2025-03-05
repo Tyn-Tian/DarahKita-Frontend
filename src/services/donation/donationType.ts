@@ -1,4 +1,4 @@
-export type AddDonorParams = {
+export type AddDonationParams = {
   email: string;
   name: string;
   blood: string;
