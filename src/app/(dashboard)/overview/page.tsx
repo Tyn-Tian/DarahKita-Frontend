@@ -11,6 +11,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import OverviewBreadcrumb from "@/components/module/dashboard/overview/overview-breadcrumb";
+import BottomOverview from "@/components/module/dashboard/overview/bottom-overview";
 
 export default function Page() {
   return (
@@ -37,7 +38,7 @@ export default function Page() {
             <SumDonorChart />
             <LeaderboardDonorChart />
           </div>
-          <div className="min-h-[100vh] flex-1 rounded-xl bg-gray-300 md:min-h-min" />
+          <BottomOverview />
         </div>
       </SidebarInset>
     </>

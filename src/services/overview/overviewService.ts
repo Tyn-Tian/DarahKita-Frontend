@@ -3,6 +3,8 @@ import axios from "axios";
 import {
   BloodStocksResponse,
   DonationsByMonthResponse,
+  LastDonationResponse,
+  LastDonorScheduleResponse,
   TopDonorsResponse,
 } from "./overviewType";
 
@@ -59,3 +61,38 @@ export const getTopDonors = async (): Promise<TopDonorsResponse> => {
     throw new Error(`Failed to fetch: ${error}`);
   }
 };
+
+export const getLastDonation = async (): Promise<LastDonationResponse> => {
+  try {
+    const token = getJWTToken();
+
+    const response = await axios.get(`${API_URL}/last-donation`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw new Error(`Failed to fetch: ${error}`);
+  }
+};
+
+export const getLastDonorSchedule =
+  async (): Promise<LastDonorScheduleResponse> => {
+    try {
+      const token = getJWTToken();
+
+      const response = await axios.get(`${API_URL}/last-donor-schedule`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return response.data;
+    } catch (error) {
+      throw new Error(`Failed to fetch: ${error}`);
+    }
+  };
